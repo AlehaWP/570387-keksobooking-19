@@ -13,6 +13,8 @@ var MokiDictionary = {
 };
 
 var QUINTITY = 8;
+var X = 40;
+var Y = 40;
 
 var returnRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -71,8 +73,9 @@ var createPins = function (quintity, mapWidth) {
 };
 
 var createPinElement = function (newElement, pinData) {
+  newElement.querySelector('.map__pin').style = 'left: ' + (pinData['location']['x'] - X) + 'px;top: ' + (pinData['location']['y'] - Y) + 'px;';
+
   var icon = newElement.querySelector('.map__pin img');
-  newElement.querySelector('.map__pin').style = 'left: ' + (pinData['location']['x'] - 40) + 'px;top: ' + (pinData['location']['y'] - 40) + 'px;';
   icon.src = pinData['author']['avatar'];
   icon.alt = pinData['offer']['title'];
 
