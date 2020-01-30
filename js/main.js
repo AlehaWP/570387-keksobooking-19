@@ -12,14 +12,10 @@ var MokiDictionary = {
   PHOTOS: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
 };
 
+var QUINTITY = 8;
+
 var returnRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
-};
-
-var cutRandomElement = function (arr) {
-  var randomNum = Math.floor(Math.random() * arr.length);
-  var result = arr.splice(randomNum, 1);
-  return result;
 };
 
 var returnRandom = function (maxNum) {
@@ -35,36 +31,62 @@ var returnSomeElements = function (arr) {
   return arr;
 };
 
-// var createMark = function () {
-//   var quantityRooms = returnRandom(4) + 1;
-//   var quantityGuests = quantityRooms * 2;
-//   return {
-//     'author': {
-//       'avatar': 'img/avatars/user' + MokiDictionary.AVATARS.splice(returnRandom(8), 1) + '.png'
-//     },
-//     'offer': {
-//       'title': returnRandomElement(MokiDictionary.TITLES),
-//       'address': строка, адрес предложения. Для простоты пусть пока представляет собой запись вида '{{location.x}}, {{location.y}}', например, '600, 350'
-//       'price': число, стоимость
-//       'type': returnRandomElement(MokiDictionary.TYPES),
-//       'rooms': quantityRooms,
-//       'guests': quantityGuests,
-//       'checkin': returnRandomElement(MokiDictionary.CHECKIN),
-//       'checkout': returnRandomElement(MokiDictionary.CHECKOUT),
-//       'features': returnSomeElements(MokiDictionary.FEATURES),
-//       'description': returnRandomElement(MokiDictionary.DESCRIPTIONS),
-//       'photos': returnSomeElements(MokiDictionary.PHOTOS)
-//     },
-//     'location': {
-//       'x': случайное число, координата x метки на карте. Значение ограничено размерами блока, в котором перетаскивается метка.
-//       'y': случайное число, координата y метки на карте от 130 до 630.
-//     }
-//   }
-// }
+var createPin = function (avatars, mapWidth) {
+  if (!avatars) {
+    avatars = MokiDictionary.AVATARS;
+  }
+  var quantityRooms = returnRandom(4) + 1;
+  var quantityGuests = quantityRooms * 2;
+  return {
+    'author': {
+      'avatar': 'img/avatars/user' + avatars.splice(returnRandom(avatars.length), 1) + '.png'
+    },
+    'offer': {
+      'title': returnRandomElement(MokiDictionary.TITLES),
+      'address': returnRandom(1000) + ',' + returnRandom(1000),
+      'price': returnRandom(3000) + 2000,
+      'type': returnRandomElement(MokiDictionary.TYPES),
+      'rooms': quantityRooms,
+      'guests': quantityGuests,
+      'checkin': returnRandomElement(MokiDictionary.CHECKIN),
+      'checkout': returnRandomElement(MokiDictionary.CHECKOUT),
+      'features': returnSomeElements(MokiDictionary.FEATURES),
+      'description': returnRandomElement(MokiDictionary.DESCRIPTIONS),
+      'photos': returnSomeElements(MokiDictionary.PHOTOS)
+    },
+    'location': {
+      'x': returnRandom(mapWidth),
+      'y': returnRandom(500) + 130
+    }
+  };
+};
+
+var createPins = function (quintity, mapWidth) {
+  var resultArr = [];
+  var tempAvatars = MokiDictionary.AVATARS.slice();
+  for (var i = 0; i < quintity; i++) {
+    resultArr[i] = createPin(tempAvatars, mapWidth);
+  }
+  return resultArr;
+};
+
+var createPinElement = function (newElement, pinData) {
+  var icon = newElement.querySelector('.map__pin img');
+  newElement.querySelector('.map__pin').style = 'left: ' + (pinData['location']['x'] - 40) + 'px;top: ' + (pinData['location']['y'] - 40) + 'px;';
+  icon.src = pinData['author']['avatar'];
+  icon.alt = pinData['offer']['title'];
+
+  return newElement;
+};
 
 var map = document.querySelector('.map');
-var widthMap = map.clientWidth;
-// console.log(MokiDictionary.AVATARS.splice(returnRandom(8), 1));
+map.classList.remove('map--faded');
+var pins = createPins(QUINTITY, map.clientWidth);
 
-console.log(MokiDictionary.FEATURES);
-console.log(returnSomeElements(MokiDictionary.FEATURES));
+var pinTemplate = document.querySelector('#pin');
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < pins.length; i++) {
+  fragment.appendChild(createPinElement(pinTemplate.cloneNode(true).content, pins[i]));
+}
+
+map.querySelector('.map__pins').appendChild(fragment);
