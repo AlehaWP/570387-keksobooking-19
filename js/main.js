@@ -1,6 +1,6 @@
 'use strict';
 
-var MokiDictionary = {
+var MockupDictionary = {
   AVATARS: ['01', '02', '03', '04', '05', '06', '07', '08'],
   TITLES: ['Уютное местечко', 'Тихая квартирка', 'Семейный отдых', 'Аренда помещения',
     'Хостел', 'Апартаменты', 'Квартира ждет арендатаров', 'Длительное размещение'],
@@ -12,9 +12,9 @@ var MokiDictionary = {
   PHOTOS: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
 };
 
-var QUINTITY = 8;
-var X = 40;
-var Y = 40;
+var QUANTITY = 8;
+var WIDTH_LOGO = 40;
+var HEIGHT_LOGO = 40;
 
 var returnRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -25,36 +25,33 @@ var returnRandomNumber = function (maxNum) {
 };
 
 var returnSomeElements = function (arr) {
-  arr = arr.slice();
-  var quantityElems = returnRandomNumber(arr.length) + 1;
-  while (quantityElems < arr.length) {
-    arr.splice(returnRandomNumber(arr.length), 1);
+  var resultArr = arr.slice();
+  var elementsQuantity = returnRandomNumber(resultArr.length) + 1;
+  while (elementsQuantity < resultArr.length) {
+    resultArr.splice(returnRandomNumber(resultArr.length), 1);
   }
-  return arr;
+  return resultArr;
 };
 
 var createPin = function (avatars, mapWidth) {
-  if (!avatars) {
-    avatars = MokiDictionary.AVATARS;
-  }
-  var quantityRooms = returnRandomNumber(4) + 1;
-  var quantityGuests = quantityRooms * 2;
+  var roomsQuantity = returnRandomNumber(4) + 1;
+  var guestsQuantity = roomsQuantity * 2;
   return {
     'author': {
       'avatar': 'img/avatars/user' + avatars.splice(returnRandomNumber(avatars.length), 1) + '.png'
     },
     'offer': {
-      'title': returnRandomElement(MokiDictionary.TITLES),
+      'title': returnRandomElement(MockupDictionary.TITLES),
       'address': returnRandomNumber(1000) + ',' + returnRandomNumber(1000),
       'price': returnRandomNumber(3000) + 2000,
-      'type': returnRandomElement(MokiDictionary.TYPES),
-      'rooms': quantityRooms,
-      'guests': quantityGuests,
-      'checkin': returnRandomElement(MokiDictionary.CHECKIN),
-      'checkout': returnRandomElement(MokiDictionary.CHECKOUT),
-      'features': returnSomeElements(MokiDictionary.FEATURES),
-      'description': returnRandomElement(MokiDictionary.DESCRIPTIONS),
-      'photos': returnSomeElements(MokiDictionary.PHOTOS)
+      'type': returnRandomElement(MockupDictionary.TYPES),
+      'rooms': roomsQuantity,
+      'guests': guestsQuantity,
+      'checkin': returnRandomElement(MockupDictionary.CHECKIN),
+      'checkout': returnRandomElement(MockupDictionary.CHECKOUT),
+      'features': returnSomeElements(MockupDictionary.FEATURES),
+      'description': returnRandomElement(MockupDictionary.DESCRIPTIONS),
+      'photos': returnSomeElements(MockupDictionary.PHOTOS)
     },
     'location': {
       'x': returnRandomNumber(mapWidth),
@@ -63,17 +60,17 @@ var createPin = function (avatars, mapWidth) {
   };
 };
 
-var createPins = function (quintity, mapWidth) {
+var createPins = function (quantity, mapWidth) {
   var resultArr = [];
-  var tempAvatars = MokiDictionary.AVATARS.slice();
-  for (var i = 0; i < quintity; i++) {
+  var tempAvatars = MockupDictionary.AVATARS.slice();
+  for (var i = 0; i < quantity; i++) {
     resultArr[i] = createPin(tempAvatars, mapWidth);
   }
   return resultArr;
 };
 
 var createPinElement = function (newElement, pinData) {
-  newElement.querySelector('.map__pin').style = 'left: ' + (pinData.location.x - X / 2) + 'px;top: ' + (pinData.location.y - Y) + 'px;';
+  newElement.querySelector('.map__pin').style = 'left: ' + (pinData.location.x - WIDTH_LOGO / 2) + 'px;top: ' + (pinData.location.y - HEIGHT_LOGO) + 'px;';
 
   var icon = newElement.querySelector('.map__pin img');
   icon.src = pinData.author.avatar;
@@ -154,7 +151,7 @@ var createFragmentWithCards = function (pins) {
 
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
-var pins = createPins(QUINTITY, map.clientWidth);
+var pins = createPins(QUANTITY, map.clientWidth);
 
 map.querySelector('.map__pins').appendChild(createFragmentWithPins(pins));
 var mapFilters = map.querySelector('.map__filters-container');
