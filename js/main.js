@@ -73,11 +73,11 @@ var createPins = function (quintity, mapWidth) {
 };
 
 var createPinElement = function (newElement, pinData) {
-  newElement.querySelector('.map__pin').style = 'left: ' + (pinData['location']['x'] - X / 2) + 'px;top: ' + (pinData['location']['y'] - Y) + 'px;';
+  newElement.querySelector('.map__pin').style = 'left: ' + (pinData.location.x - X / 2) + 'px;top: ' + (pinData.location.y - Y) + 'px;';
 
   var icon = newElement.querySelector('.map__pin img');
-  icon.src = pinData['author']['avatar'];
-  icon.alt = pinData['offer']['title'];
+  icon.src = pinData.author.avatar;
+  icon.alt = pinData.offer.title;
 
   return newElement;
 };
@@ -91,8 +91,31 @@ var createFragmentWithPins = function (pins) {
   return fragment;
 };
 
+
+var createCardElement = function (newElement, pinData) {
+  newElement.querySelector('.popup__title').textContent = pinData.offer.title;
+  newElement.querySelector('.popup__text--address').textContent = pinData.offer.address;
+  newElement.querySelector('.popup__text--price').textContent = pinData.offer.price + '₽/ночь';
+
+  // var icon = newElement.querySelector('.map__pin img');
+  // icon.src = pinData.author.avatar;
+  // icon.alt = pinData.offer.title;
+
+  return newElement;
+};
+
+var createFragmentWithCards = function (pins) {
+  var cardTemplate = document.querySelector('#card');
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < 1; i++) {
+    fragment.appendChild(createCardElement(cardTemplate.cloneNode(true).content, pins[i]));
+  }
+  return fragment;
+};
+
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 var pins = createPins(QUINTITY, map.clientWidth);
 
 map.querySelector('.map__pins').appendChild(createFragmentWithPins(pins));
+console.log(createFragmentWithCards(pins));
