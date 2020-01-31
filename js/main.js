@@ -20,15 +20,15 @@ var returnRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-var returnRandom = function (maxNum) {
+var returnRandomNumber = function (maxNum) {
   return Math.floor(Math.random() * maxNum);
 };
 
 var returnSomeElements = function (arr) {
   var resultArr = arr.slice();
-  var quantityElems = returnRandom(arr.length) + 1;
+  var quantityElems = returnRandomNumber(arr.length) + 1;
   while (quantityElems < arr.length) {
-    arr.splice(returnRandom(arr.length), 1);
+    arr.splice(returnRandomNumber(arr.length), 1);
   }
   return arr;
 };
@@ -37,16 +37,16 @@ var createPin = function (avatars, mapWidth) {
   if (!avatars) {
     avatars = MokiDictionary.AVATARS;
   }
-  var quantityRooms = returnRandom(4) + 1;
+  var quantityRooms = returnRandomNumber(4) + 1;
   var quantityGuests = quantityRooms * 2;
   return {
     'author': {
-      'avatar': 'img/avatars/user' + avatars.splice(returnRandom(avatars.length), 1) + '.png'
+      'avatar': 'img/avatars/user' + avatars.splice(returnRandomNumber(avatars.length), 1) + '.png'
     },
     'offer': {
       'title': returnRandomElement(MokiDictionary.TITLES),
-      'address': returnRandom(1000) + ',' + returnRandom(1000),
-      'price': returnRandom(3000) + 2000,
+      'address': returnRandomNumber(1000) + ',' + returnRandomNumber(1000),
+      'price': returnRandomNumber(3000) + 2000,
       'type': returnRandomElement(MokiDictionary.TYPES),
       'rooms': quantityRooms,
       'guests': quantityGuests,
@@ -57,8 +57,8 @@ var createPin = function (avatars, mapWidth) {
       'photos': returnSomeElements(MokiDictionary.PHOTOS)
     },
     'location': {
-      'x': returnRandom(mapWidth),
-      'y': returnRandom(500) + 130
+      'x': returnRandomNumber(mapWidth),
+      'y': returnRandomNumber(500) + 130
     }
   };
 };
@@ -73,7 +73,7 @@ var createPins = function (quintity, mapWidth) {
 };
 
 var createPinElement = function (newElement, pinData) {
-  newElement.querySelector('.map__pin').style = 'left: ' + (pinData['location']['x'] - X) + 'px;top: ' + (pinData['location']['y'] - Y) + 'px;';
+  newElement.querySelector('.map__pin').style = 'left: ' + (pinData['location']['x'] - X / 2) + 'px;top: ' + (pinData['location']['y'] - Y) + 'px;';
 
   var icon = newElement.querySelector('.map__pin img');
   icon.src = pinData['author']['avatar'];
@@ -82,14 +82,17 @@ var createPinElement = function (newElement, pinData) {
   return newElement;
 };
 
+var createFragmentWithPins = function (pins) {
+  var pinTemplate = document.querySelector('#pin');
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < pins.length; i++) {
+    fragment.appendChild(createPinElement(pinTemplate.cloneNode(true).content, pins[i]));
+  }
+  return fragment;
+};
+
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 var pins = createPins(QUINTITY, map.clientWidth);
 
-var pinTemplate = document.querySelector('#pin');
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < pins.length; i++) {
-  fragment.appendChild(createPinElement(pinTemplate.cloneNode(true).content, pins[i]));
-}
-
-map.querySelector('.map__pins').appendChild(fragment);
+map.querySelector('.map__pins').appendChild(createFragmentWithPins(pins));
