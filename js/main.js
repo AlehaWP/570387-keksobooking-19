@@ -107,7 +107,7 @@ var translateHouseName = function (engName) {
 };
 
 var createCardElement = function (newElement, pinData) {
-  console.log(pinData);
+  var i;
   newElement.querySelector('.popup__title').textContent = pinData.offer.title;
   newElement.querySelector('.popup__text--address').textContent = pinData.offer.address;
   newElement.querySelector('.popup__text--price').textContent = pinData.offer.price + '₽/ночь';
@@ -119,11 +119,11 @@ var createCardElement = function (newElement, pinData) {
 
   var features = pinData.offer.features;
   var featuresList = newElement.querySelector('.popup__features');
-  for (var i = 0; i < features.length; i++) {
+  for (i = 0; i < features.length; i++) {
     featuresList.querySelector('.popup__feature--' + features[i]).textContent = features[i];
   }
   var featuresElements = newElement.querySelectorAll('.popup__feature');
-  for (var i = 0; i < featuresElements.length; i++) {
+  for (i = 0; i < featuresElements.length; i++) {
     if (featuresElements[i].textContent.length === 0) {
       featuresList.removeChild(featuresElements[i]);
     }
@@ -131,7 +131,7 @@ var createCardElement = function (newElement, pinData) {
 
   var photos = pinData.offer.photos;
   var photosBlock = newElement.querySelector('.popup__photos');
-  for (var i = 0; i < photos.length; i++) {
+  for (i = 0; i < photos.length; i++) {
     var photoElement = photosBlock.querySelector('.popup__photo');
     if (i > 0) {
       photoElement = photoElement.cloneNode();
