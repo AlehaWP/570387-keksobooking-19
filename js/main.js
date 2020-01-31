@@ -73,11 +73,11 @@ var createPins = function (quintity, mapWidth) {
 };
 
 var createPinElement = function (newElement, pinData) {
-  newElement.querySelector('.map__pin').style = 'left: ' + (pinData['location']['x'] - X / 2) + 'px;top: ' + (pinData['location']['y'] - Y) + 'px;';
-
+  newElement.querySelector('.map__pin').style = 'left: ' + (pinData.location.x - X / 2) + 'px;top: ' + (pinData.location.y - Y) + 'px;';
+  console.log(pinData.location.x);
   var icon = newElement.querySelector('.map__pin img');
-  icon.src = pinData['author']['avatar'];
-  icon.alt = pinData['offer']['title'];
+  icon.src = pinData.author.avatar;
+  icon.alt = pinData.offer.title;
 
   return newElement;
 };
