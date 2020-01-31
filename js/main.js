@@ -25,7 +25,7 @@ var returnRandomNumber = function (maxNum) {
 };
 
 var returnSomeElements = function (arr) {
-  var arr = arr.slice();
+  arr = arr.slice();
   var quantityElems = returnRandomNumber(arr.length) + 1;
   while (quantityElems < arr.length) {
     arr.splice(returnRandomNumber(arr.length), 1);
