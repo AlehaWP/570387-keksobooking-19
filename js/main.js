@@ -13,8 +13,8 @@ var MockupDictionary = {
 };
 
 var QUANTITY = 8;
-var WIDTH_LOGO = 40;
-var HEIGHT_LOGO = 40;
+var LOGO_WIDTH = 40;
+var LOGO_HEIGHT = 40;
 
 var returnRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -70,7 +70,7 @@ var createPins = function (quantity, mapWidth) {
 };
 
 var createPinElement = function (newElement, pinData) {
-  newElement.querySelector('.map__pin').style = 'left: ' + (pinData.location.x - WIDTH_LOGO / 2) + 'px;top: ' + (pinData.location.y - HEIGHT_LOGO) + 'px;';
+  newElement.querySelector('.map__pin').style = 'left: ' + (pinData.location.x - LOGO_WIDTH / 2) + 'px;top: ' + (pinData.location.y - LOGO_HEIGHT) + 'px;';
 
   var icon = newElement.querySelector('.map__pin img');
   icon.src = pinData.author.avatar;
