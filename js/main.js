@@ -149,21 +149,46 @@ var createFragmentWithCards = function (pins) {
   return fragment;
 };
 
-var setDisabledInputSelectElements = function (form) {
-  var elementsForSetDisabled = form.querySelectorAll('input, select');
-  for (var i = 0; i < elementsForSetDisabled.length; i++) {
-    elementsForSetDisabled[i].setAttribute('disabled', '');
+
+var map = document.querySelector('.map');
+var form = document.querySelector('.ad-form');
+var filters = map.querySelector('.map__filters');
+var elementsInputSelect = form.querySelectorAll('input, select');
+
+var setInputStateDisabled = function () {
+  for (var i = 0; i < elementsInputSelect.length; i++) {
+    elementsInputSelect[i].setAttribute('disabled', '');
   }
 };
 
-setDisabledInputSelectElements(document.querySelector('.ad-form'));
+var setInputStateEnabled = function () {
+  for (var i = 0; i < elementsInputSelect.length; i++) {
+    elementsInputSelect[i].removeAttribute('disabled');
+  }
+};
 
-var map = document.querySelector('.map');
-// map.classList.remove('map--faded');
+var setPageNotActive = function () {
+  filters.classList.add('map__filters--disabled');
+  setInputStateDisabled();
+};
+
+setPageNotActive();
+
+var setPageActive = function () {
+  map.classList.remove('map--faded');
+  form.classList.remove('ad-form--disabled');
+  filters.classList.remove('map__filters--disabled');
+  setInputStateEnabled();
+};
+
 var pins = createPins(QUANTITY, map.clientWidth);
 
 var mainPin = map.querySelector('.map__pin--main');
-mainPin
+mainPin.addEventListener('mousedown', function (evt) {
+  if (evt.buttons === 1) {
+    setPageActive();
+  }
+});
 
 map.querySelector('.map__pins').appendChild(createFragmentWithPins(pins));
 var mapFilters = map.querySelector('.map__filters-container');
