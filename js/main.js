@@ -149,10 +149,22 @@ var createFragmentWithCards = function (pins) {
   return fragment;
 };
 
+var setDisabledInputSelectElements = function (form) {
+  var elementsForSetDisabled = form.querySelectorAll('input, select');
+  for (var i = 0; i < elementsForSetDisabled.length; i++) {
+    elementsForSetDisabled[i].setAttribute('disabled', '');
+  }
+};
+
+setDisabledInputSelectElements(document.querySelector('.ad-form'));
+
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
+// map.classList.remove('map--faded');
 var pins = createPins(QUANTITY, map.clientWidth);
+
+var mainPin = map.querySelector('.map__pin--main');
+mainPin
 
 map.querySelector('.map__pins').appendChild(createFragmentWithPins(pins));
 var mapFilters = map.querySelector('.map__filters-container');
-map.insertBefore(createFragmentWithCards(pins), mapFilters);
+// map.insertBefore(createFragmentWithCards(pins), mapFilters);
