@@ -154,7 +154,7 @@ var fillPinElement = function (newElement, pinData, indexNumber) {
   var pinButton = newElement.querySelector('.map__pin');
   pinButton.style = 'left: ' + (pinData.location.x - LOGO_WIDTH / 2) + 'px;top: ' + (pinData.location.y - LOGO_HEIGHT) + 'px;';
 
-  pinButton.addEventListener('click', function (evt) {
+  pinButton.addEventListener('click', function () {
     openPinCard(indexNumber);
   });
 
@@ -265,7 +265,7 @@ capacity.addEventListener('change', function () {
 });
 
 var formTitle = form.querySelector('#title');
-formTitle.addEventListener('invalid', function (evt) {
+formTitle.addEventListener('invalid', function () {
   if (formTitle.validity.tooShort) {
     formTitle.setCustomValidity('Минимальная длина заголовка 30 символов');
   } else if (formTitle.validity.toLong) {
