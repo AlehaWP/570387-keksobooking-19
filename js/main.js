@@ -106,18 +106,17 @@ var openPinCard = function (index) {
 var createPinElement = function (newElement, pinData, indexNumber) {
   var pinButton = newElement.querySelector('.map__pin');
   pinButton.style = 'left: ' + (pinData.location.x - LOGO_WIDTH / 2) + 'px;top: ' + (pinData.location.y - LOGO_HEIGHT) + 'px;';
-  pinButton.setAttribute('data-index', indexNumber);
 
-  pinButton.addEventListener('click', function () {
-    openPinCard(this.dataset.index);
+  pinButton.addEventListener('click', function (evt) {
+    openPinCard(indexNumber);
   });
 
   var icon = newElement.querySelector('.map__pin img');
   icon.src = pinData.author.avatar;
   icon.alt = pinData.offer.title;
-
   return newElement;
 };
+
 
 var createFragmentWithPins = function (pins) {
   var pinTemplate = document.querySelector('#pin');
