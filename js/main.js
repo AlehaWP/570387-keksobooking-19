@@ -126,11 +126,11 @@ var closeOpenedCard = function () {
   var cardOpened = map.querySelector('.map__card');
   if (cardOpened) {
     map.removeChild(cardOpened);
-    map.removeEventListener('keydown', closeOpenedCardByEscape);
+    map.removeEventListener('keydown', onCardKeyDownEsc);
   }
 };
 
-var closeOpenedCardByEscape = function (evt) {
+var onCardKeyDownEsc = function (evt) {
   if (evt.key === ESC_KEY) {
     closeOpenedCard();
   }
@@ -146,7 +146,7 @@ var openPinCard = function (index) {
     fillCardElement(elementToAdd, pins[index]);
     elementToAdd.querySelector('.popup__close').addEventListener('click', closeOpenedCard);
     map.insertBefore(elementToAdd, mapFilters);
-    map.addEventListener('keydown', closeOpenedCardByEscape);
+    map.addEventListener('keydown', onCardKeyDownEsc);
   }
 };
 
