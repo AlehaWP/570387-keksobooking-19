@@ -12,6 +12,13 @@ var MockupDictionary = {
   PHOTOS: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
 };
 
+var HOUSE_TYPE_MIN_PRICE = {
+  'palace': 10000,
+  'flat': 1000,
+  'house': 5000,
+  'bungalo': 0
+};
+
 var QUANTITY = 8;
 var LOGO_WIDTH = 40;
 var LOGO_HEIGHT = 40;
@@ -264,8 +271,35 @@ formTitle.addEventListener('invalid', function (evt) {
   } else if (formTitle.validity.toLong) {
     formTitle.setCustomValidity('Максимальная длина заголовка 100 символов');
   } else if (formTitle.validity.valueMissing) {
-    formTitle.setCustomValidity('Обязательное поле');
+    formTitle.setCustomValidity('Поле обязательно для заполнения');
+  } else {
+    formTitle.setCustomValidity('');
   }
 });
+
+var timeIn = form.querySelector('#timein');
+var timeOut = form.querySelector('#timeout');
+
+var synchronizeTimeInOut = function (evt) {
+  if (evt.target === timeIn) {
+    timeOut.value = timeIn.value;
+  }
+  if (evt.target === timeOut) {
+    timeIn.value = timeOut.value;
+  }
+};
+
+timeIn.addEventListener('change', synchronizeTimeInOut);
+timeOut.addEventListener('change', synchronizeTimeInOut);
+
+var houseType = form.querySelector('#type');
+var price = form.querySelector('#price');
+var setMinPriceByType = function () {
+  price.setAttribute('min', HOUSE_TYPE_MIN_PRICE[houseType.value]);
+};
+
+houseType.addEventListener('change', setMinPriceByType);
+
+setMinPriceByType();
 
 setPageNotActive();
