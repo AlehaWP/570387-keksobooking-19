@@ -190,7 +190,7 @@ addPinsToMap();
 
 var form = document.querySelector('.ad-form');
 var filters = map.querySelector('.map__filters');
-var elementsInputSelect = form.querySelectorAll('input, select');
+var elementsInputSelect = form.querySelectorAll('input, select, textarea, button');
 var mainPin = map.querySelector('.map__pin--main');
 
 
@@ -206,16 +206,25 @@ var setInputStateEnabled = function () {
   }
 };
 
+var setFormDisabled = function () {
+  form.classList.add('ad-form--disabled');
+  setInputStateDisabled();
+};
+
+var setFormEnabled = function () {
+  form.classList.remove('ad-form--disabled');
+  setInputStateEnabled();
+};
+
 var setPageNotActive = function () {
   filters.classList.add('map__filters--disabled');
-  setInputStateDisabled();
+  setFormDisabled();
 };
 
 var setPageActive = function () {
   map.classList.remove('map--faded');
-  form.classList.remove('ad-form--disabled');
   filters.classList.remove('map__filters--disabled');
-  setInputStateEnabled();
+  setFormEnabled();
 };
 
 var fillAddressByPin = function (pin) {
