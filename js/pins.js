@@ -1,6 +1,5 @@
 'use strict';
 
-// pins.js
 (function () {
   var LOGO_WIDTH = 40;
   var LOGO_HEIGHT = 40;

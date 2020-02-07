@@ -1,4 +1,5 @@
-// card.js
+'use strict';
+
 (function () {
   var cardOpen;
   var cardTemplate = document.querySelector('#card');

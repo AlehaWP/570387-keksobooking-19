@@ -1,4 +1,5 @@
-// general.js
+'use strict';
+
 (function () {
   var ENTER_KEY = 'Enter';
   var ESC_KEY = 'Escape';

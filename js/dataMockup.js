@@ -1,6 +1,5 @@
 'use strict';
 
-// dataMockup.js
 (function () {
   var MockupDictionary = {
     AVATARS: ['01', '02', '03', '04', '05', '06', '07', '08'],
