@@ -8,6 +8,17 @@ var HOUSE_TYPE_MIN_PRICE = {
 };
 
 
+// main.js
+(function () {
+  var map = document.querySelector('.map');
+  var form = document.querySelector('.ad-form');
+
+  window.main = {
+    map: map,
+    form: form
+  };
+})();
+
 // pins.js
 (function () {
 
@@ -66,13 +77,13 @@ var fillCardElement = function (card, pinData) {
 
   var photos = pinData.offer.photos;
   var photosBlock = card.querySelector('.popup__photos');
+  var photoElementTemplate = photosBlock.querySelector('.popup__photo').cloneNode();
+  photosBlock.innerHTML = '';
+  var newPhotoElement;
   for (i = 0; i < photos.length; i++) {
-    var photoElement = photosBlock.querySelector('.popup__photo');
-    if (i > 0) {
-      photoElement = photoElement.cloneNode();
-      photosBlock.appendChild(photoElement);
-    }
-    photoElement.src = photos[i];
+    newPhotoElement = photoElementTemplate.cloneNode();
+    photosBlock.appendChild(newPhotoElement);
+    newPhotoElement.src = photos[i];
   }
 };
 
