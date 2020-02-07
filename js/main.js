@@ -43,7 +43,7 @@ var translatedHouseName = {
   'palace': 'Дворец'
 };
 
-var returnFragmentFiatures = function (features, template) {
+var returnFragmentFeatures = function (features, template) {
   var fragment = document.createDocumentFragment();
   var newFeature;
   for (var i = 0; i < features.length; i++) {
@@ -70,7 +70,7 @@ var fillCardElement = function (card, pinData) {
   var featureElement = featuresList.querySelector('.popup__feature').cloneNode(true);
   featureElement.className = '';
   featureElement.classList.add('popup__feature');
-  var featuresToAdd = returnFragmentFiatures(features, featureElement);
+  var featuresToAdd = returnFragmentFeatures(features, featureElement);
   featuresList.innerHTML = '';
   featuresList.appendChild(featuresToAdd);
 
