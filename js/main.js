@@ -24,7 +24,7 @@ var LOGO_WIDTH = 40;
 var LOGO_HEIGHT = 40;
 var ENTER_KEY = 'Enter';
 var ESC_KEY = 'Escape';
-var MOUSE_BUTTON = 1;
+var LEFT_MOUSE_BUTTON = 1;
 
 var returnRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -87,6 +87,17 @@ var translatedHouseName = {
   'palace': 'Дворец'
 };
 
+var returnFragmentFiatures = function (features, template) {
+  var fragment = document.createDocumentFragment();
+  var newFeature;
+  for (var i = 0; i < features.length; i++) {
+    newFeature = template.cloneNode(true);
+    newFeature.classList.add('popup__feature--' + features[i]);
+    fragment.appendChild(newFeature);
+  }
+  return fragment;
+};
+
 var fillCardElement = function (card, pinData) {
   var i;
   card.querySelector('.popup__title').textContent = pinData.offer.title;
@@ -100,15 +111,13 @@ var fillCardElement = function (card, pinData) {
 
   var features = pinData.offer.features;
   var featuresList = card.querySelector('.popup__features');
-  for (i = 0; i < features.length; i++) {
-    featuresList.querySelector('.popup__feature--' + features[i]).textContent = features[i];
-  }
-  var featuresElements = card.querySelectorAll('.popup__feature');
-  for (i = 0; i < featuresElements.length; i++) {
-    if (featuresElements[i].textContent.length === 0) {
-      featuresList.removeChild(featuresElements[i]);
-    }
-  }
+  var featureElement = featuresList.querySelector('.popup__feature').cloneNode(true);
+  featureElement.className = '';
+  featureElement.classList.add('popup__feature');
+  var featuresToAdd = returnFragmentFiatures(features, featureElement);
+  featuresList.innerHTML = '';
+  featuresList.appendChild(featuresToAdd);
+
 
   var photos = pinData.offer.photos;
   var photosBlock = card.querySelector('.popup__photos');
@@ -122,12 +131,12 @@ var fillCardElement = function (card, pinData) {
   }
 };
 
+var cardOpen;
+
 var closeOpenedCard = function () {
-  var cardOpened = map.querySelector('.map__card');
-  if (cardOpened) {
-    map.removeChild(cardOpened);
-    map.removeEventListener('keydown', onCardKeyDownEsc);
-  }
+  map.removeChild(cardOpen);
+  map.removeEventListener('keydown', onCardKeyDownEsc);
+  cardOpen = null;
 };
 
 var onCardKeyDownEsc = function (evt) {
@@ -136,15 +145,18 @@ var onCardKeyDownEsc = function (evt) {
   }
 };
 
-var openPinCard = function (index) {
+var onPopupCloseClick = function () {
   closeOpenedCard();
-  var cardOpened = map.querySelector('.map__card');
-  if (cardOpened) {
-    fillCardElement(cardOpened, pins[index]);
+};
+
+var openPinCard = function (index) {
+  if (cardOpen) {
+    fillCardElement(cardOpen, pins[index]);
   } else {
     var elementToAdd = cardTemplate.cloneNode(true).content;
     fillCardElement(elementToAdd, pins[index]);
-    elementToAdd.querySelector('.popup__close').addEventListener('click', closeOpenedCard);
+    cardOpen = elementToAdd.querySelector('.popup');
+    cardOpen.querySelector('.popup__close').addEventListener('click', onPopupCloseClick);
     map.insertBefore(elementToAdd, mapFilters);
     map.addEventListener('keydown', onCardKeyDownEsc);
   }
@@ -234,7 +246,7 @@ var fillAddressByPin = function (pin) {
 };
 
 mainPin.addEventListener('mousedown', function (evt) {
-  if (evt.buttons === MOUSE_BUTTON) {
+  if (evt.buttons === LEFT_MOUSE_BUTTON) {
     setPageActive();
     fillAddressByPin(mainPin);
     checkCapacityByRoomsNumber();
@@ -298,8 +310,12 @@ var synchronizeTimeInOut = function (evt) {
   }
 };
 
-timeIn.addEventListener('change', synchronizeTimeInOut);
-timeOut.addEventListener('change', synchronizeTimeInOut);
+var onTimeChange = function () {
+  synchronizeTimeInOut();
+};
+
+timeIn.addEventListener('change', onTimeChange);
+timeOut.addEventListener('change', onTimeChange);
 
 var houseType = form.querySelector('#type');
 var price = form.querySelector('#price');
@@ -307,7 +323,11 @@ var setMinPriceByType = function () {
   price.setAttribute('min', HOUSE_TYPE_MIN_PRICE[houseType.value]);
 };
 
-houseType.addEventListener('change', setMinPriceByType);
+var onPriceChange = function () {
+  setMinPriceByType();
+};
+
+houseType.addEventListener('change', onPriceChange);
 
 setMinPriceByType();
 
