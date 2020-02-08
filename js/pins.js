@@ -3,7 +3,8 @@
 (function () {
   var LOGO_WIDTH = 40;
   var LOGO_HEIGHT = 40;
-  var pins = window.dataMockup.returnPins(window.general.map.clientWidth);
+  var map = window.general.map;
+  var pins = window.dataMockup.returnPins(map.clientWidth);
 
   var fillPinElement = function (newElement, pinData, indexNumber) {
     var pinButton = newElement.querySelector('.map__pin');
@@ -32,7 +33,7 @@
   };
 
   var addPinsToMap = function () {
-    var target = window.general.map.querySelector('.map__pins');
+    var target = map.querySelector('.map__pins');
     var fragmentToAdd = returnFragmentWithPins();
     target.appendChild(fragmentToAdd);
   };
