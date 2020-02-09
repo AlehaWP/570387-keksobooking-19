@@ -1,9 +1,9 @@
 'use strict';
 
 (function () {
+  var ESC_KEY = 'Escape';
   var cardOpen;
   var cardTemplate = document.querySelector('#card');
-  var mapFilters = window.general.map.querySelector('.map__filters-container');
 
   var translatedHouseName = {
     'flat': 'Kвартира',
@@ -56,23 +56,24 @@
     }
   };
 
-  var closeOpenedCard = function () {
-    window.general.map.removeChild(cardOpen);
-    window.general.map.removeEventListener('keydown', onCardKeyDownEsc);
+  var closeCard = function () {
+    var parent = cardOpen.parentElement;
+    parent.removeChild(cardOpen);
+    parent.removeEventListener('keydown', onCardKeyDownEsc);
     cardOpen = null;
   };
 
   var onCardKeyDownEsc = function (evt) {
-    if (evt.key === window.general.ESC_KEY) {
-      closeOpenedCard();
+    if (evt.key === ESC_KEY) {
+      closeCard();
     }
   };
 
   var onPopupCloseClick = function () {
-    closeOpenedCard();
+    closeCard();
   };
 
-  var openPinCard = function (pinData) {
+  var open = function (pinData, parrent, elementAfter) {
     if (cardOpen) {
       fillCardElement(cardOpen, pinData);
     } else {
@@ -80,12 +81,12 @@
       fillCardElement(elementToAdd, pinData);
       cardOpen = elementToAdd.querySelector('.popup');
       cardOpen.querySelector('.popup__close').addEventListener('click', onPopupCloseClick);
-      window.general.map.insertBefore(elementToAdd, mapFilters);
-      window.general.map.addEventListener('keydown', onCardKeyDownEsc);
+      parrent.insertBefore(elementToAdd, elementAfter);
+      parrent.addEventListener('keydown', onCardKeyDownEsc);
     }
   };
 
   window.card = {
-    openPinCard: openPinCard
+    open: open
   };
 })();

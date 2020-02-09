@@ -4,34 +4,38 @@
   var map = window.general.map;
   var filters = map.querySelector('.map__filters');
   var mainPin = map.querySelector('.map__pin--main');
+
+  var activatePage = function () {
+    window.page.setActive();
+    window.form.fillAddressByPin(mainPin);
+  };
+
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.buttons === window.general.LEFT_MOUSE_BUTTON) {
-      window.page.setPageActive();
-      window.form.fillAddressByPin(mainPin);
+      activatePage();
     }
   });
 
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.key === window.general.ENTER_KEY) {
-      window.page.setPageActive();
-      window.form.fillAddressByPin(mainPin);
+      activatePage();
     }
   });
 
-  var setMapDisabled = function () {
+  var setDisabled = function () {
     filters.classList.add('map__filters--disabled');
   };
 
-  var setMapEnabled = function () {
+  var setEnabled = function () {
     window.general.map.classList.remove('map--faded');
     filters.classList.remove('map__filters--disabled');
   };
 
-  window.pins.addPinsToMap();
+  window.pins.addTo(map);
 
   window.map = {
-    setMapEnabled: setMapEnabled,
-    setMapDisabled: setMapDisabled
+    setEnabled: setEnabled,
+    setDisabled: setDisabled
   };
 
 })();

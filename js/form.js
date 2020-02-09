@@ -86,7 +86,7 @@
     }
   };
 
-  var setFormEnabled = function () {
+  var setEnabled = function () {
     form.classList.remove('ad-form--disabled');
     setInputStateEnabled();
     checkCapacityByRoomsNumber();
@@ -98,7 +98,7 @@
     }
   };
 
-  var setFormDisabled = function () {
+  var setDisabled = function () {
     form.classList.add('ad-form--disabled');
     setInputStateDisabled();
   };
@@ -114,8 +114,8 @@
 
   window.form = {
     fillAddressByPin: fillAddressByPin,
-    setFormDisabled: setFormDisabled,
-    setFormEnabled: setFormEnabled,
+    setDisabled: setDisabled,
+    setEnabled: setEnabled,
     checkCapacityByRoomsNumber: checkCapacityByRoomsNumber
   };
 })();

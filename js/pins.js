@@ -3,15 +3,17 @@
 (function () {
   var LOGO_WIDTH = 40;
   var LOGO_HEIGHT = 40;
-  var map = window.general.map;
-  var pins = window.dataMockup.returnPins(map.clientWidth);
+  var parentBlock;
+  var pins;
+  var mapFilters;
+
 
   var fillPinElement = function (newElement, pinData, indexNumber) {
     var pinButton = newElement.querySelector('.map__pin');
     pinButton.style = 'left: ' + (pinData.location.x - LOGO_WIDTH / 2) + 'px;top: ' + (pinData.location.y - LOGO_HEIGHT) + 'px;';
 
     pinButton.addEventListener('click', function () {
-      window.card.openPinCard(pins[indexNumber]);
+      window.card.open(pins[indexNumber], parentBlock, mapFilters);
     });
 
     var icon = newElement.querySelector('.map__pin img');
@@ -32,13 +34,17 @@
     return fragment;
   };
 
-  var addPinsToMap = function () {
-    var target = map.querySelector('.map__pins');
+  var addTo = function (parentBlockToAdd) {
+    parentBlock = parentBlockToAdd;
+    mapFilters = parentBlock.querySelector('.map__filters-container');
+    pins = window.dataMockup.returnPins(parentBlock.clientWidth);
+
+    var target = parentBlock.querySelector('.map__pins');
     var fragmentToAdd = returnFragmentWithPins();
     target.appendChild(fragmentToAdd);
   };
 
   window.pins = {
-    addPinsToMap: addPinsToMap
+    addTo: addTo
   };
 })();

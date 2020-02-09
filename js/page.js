@@ -1,20 +1,20 @@
 'use strict';
 
 (function () {
-  var setPageNotActive = function () {
-    window.map.setMapDisabled();
-    window.form.setFormDisabled();
+  var setNotActive = function () {
+    window.map.setDisabled();
+    window.form.setDisabled();
   };
 
-  var setPageActive = function () {
-    window.map.setMapEnabled();
-    window.form.setFormEnabled();
+  var setActive = function () {
+    window.map.setEnabled();
+    window.form.setEnabled();
   };
 
-  setPageNotActive();
+  setNotActive();
 
   window.page = {
-    setPageActive: setPageActive,
-    setPageNotActive: setPageNotActive
+    setActive: setActive,
+    setNotActive: setNotActive
   };
 })();
