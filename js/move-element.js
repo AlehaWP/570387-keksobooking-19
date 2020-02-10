@@ -2,7 +2,6 @@
 
 (function () {
   var addDragAndDropToElement = function (element, moveElement, borderArea) {
-    var parent = element.parentElement;
     element.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
       var startCoordinates = {
