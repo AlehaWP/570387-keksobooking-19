@@ -11,7 +11,13 @@
     window.form.setEnabled();
   };
 
+  var activatePage = function () {
+    setActive();
+    // window.form.fillAddressByPin(mainPin);
+  };
+
   setNotActive();
+  window.map.setOnMainPinClick(activatePage);
 
   window.page = {
     setActive: setActive,

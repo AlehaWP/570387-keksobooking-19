@@ -103,17 +103,10 @@
     setInputStateDisabled();
   };
 
-  var fillAddressByPin = function (pin) {
-    var addressField = form.querySelector('#address');
-    addressField.value = Math.round(pin.offsetLeft + pin.offsetWidth / 2);
-    addressField.value += ', ' + Math.round(pin.offsetTop + pin.offsetHeight);
-  };
-
-
   setMinPriceByType();
 
   window.form = {
-    fillAddressByPin: fillAddressByPin,
+    // fillAddressByPin: fillAddressByPin,
     setDisabled: setDisabled,
     setEnabled: setEnabled
   };
