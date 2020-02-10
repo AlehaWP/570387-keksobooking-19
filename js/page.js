@@ -13,8 +13,6 @@
 
   var activatePage = function () {
     setActive();
-    // fillAddressByPin();
-    // window.form.fillAddressByPin(mainPin);
   };
 
   var fillAddressByPin = function () {
