@@ -7,6 +7,7 @@
   var mainPinWidthHalf = mainPin.offsetWidth / 2;
   var mainPinHeight = mainPin.offsetHeight;
   var onMainPinClick = function () {};
+  var onMainPinMouseUp = function () {};
   var LEFT_BUTTON_MOUSE_UP_CODE = 0;
   var mainPinPointer = {
     x: Math.round(mainPin.offsetLeft + mainPinWidthHalf),
@@ -21,16 +22,15 @@
   };
   window.moveElement.addDragAndDrop(mainPin, mainPin, borderArea);
 
-  // var fillAddressByPin = function (pin) {
-  //   var addressField = form.querySelector('#address');
-  //   addressField.value = Math.round(pin.offsetLeft + pin.offsetWidth / 2);
-  //   addressField.value += ', ' + Math.round(pin.offsetTop + pin.offsetHeight);
-  // };
-
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.buttons === window.general.LEFT_MOUSE_BUTTON) {
       onMainPinClick();
       document.addEventListener('mouseup', onMouseUp);
+      var onMainPinMouseUpPlusRemove = function () {
+        onMainPinMouseUp();
+        document.removeEventListener('mouseup', onMainPinMouseUpPlusRemove);
+      };
+      document.addEventListener('mouseup', onMainPinMouseUpPlusRemove);
     }
   });
 
@@ -42,10 +42,8 @@
 
   var onMouseUp = function (evt) {
     if (evt.button === LEFT_BUTTON_MOUSE_UP_CODE) {
-      mainPinPointer = {
-        x: Math.round(mainPin.offsetLeft + mainPinWidthHalf),
-        y: Math.round(mainPin.offsetTop + mainPinHeight)
-      };
+      mainPinPointer.x = Math.round(mainPin.offsetLeft + mainPinWidthHalf);
+      mainPinPointer.y = Math.round(mainPin.offsetTop + mainPinHeight);
       document.removeEventListener('mouseup', onMouseUp);
     }
   };
@@ -65,9 +63,14 @@
     onMainPinClick = callback;
   };
 
+  var setOnMainPinMouseUp = function (callback) {
+    onMainPinMouseUp = callback;
+  };
+
   window.map = {
     mainPinPointer: mainPinPointer,
-    setOnMainPinClick: setOnMainPinClick,
+    subscribeOnMainPinClick: setOnMainPinClick,
+    subscribeOnMainPinMouseUp: setOnMainPinMouseUp,
     setEnabled: setEnabled,
     setDisabled: setDisabled
   };

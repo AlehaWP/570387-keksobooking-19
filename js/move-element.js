@@ -71,6 +71,7 @@
 
     });
   };
+
   window.moveElement = {
     addDragAndDrop: addDragAndDropToElement
   };
