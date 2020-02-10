@@ -115,7 +115,6 @@
   window.form = {
     fillAddressByPin: fillAddressByPin,
     setDisabled: setDisabled,
-    setEnabled: setEnabled,
-    checkCapacityByRoomsNumber: checkCapacityByRoomsNumber
+    setEnabled: setEnabled
   };
 })();

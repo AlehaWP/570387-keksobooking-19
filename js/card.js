@@ -73,7 +73,7 @@
     closeCard();
   };
 
-  var open = function (pinData, parrent, elementAfter) {
+  var open = function (pinData, parent, elementAfter) {
     if (cardOpen) {
       fillCardElement(cardOpen, pinData);
     } else {
