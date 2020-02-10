@@ -1,7 +1,8 @@
 'use strict';
 
 (function () {
-  var addDragAndDropToElement = function (element, moveElement) {
+  var addDragAndDropToElement = function (element, moveElement, borderArea) {
+    var parent = element.parentElement;
     element.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
       var startCoordinates = {
@@ -29,9 +30,28 @@
           x: moveEvt.clientX,
           y: moveEvt.clientY
         };
+        var newPosition = {
+          x: moveElement.offsetLeft + delta.x,
+          y: moveElement.offsetTop + delta.y
+        };
 
-        moveElement.style.left = (moveElement.offsetLeft + delta.x) + 'px';
-        moveElement.style.top = (moveElement.offsetTop + delta.y) + 'px';
+        if (borderArea) {
+          if (newPosition.x < borderArea.left) {
+            newPosition.x = borderArea.left;
+          }
+          if (newPosition.y < borderArea.top) {
+            newPosition.y = borderArea.top;
+          }
+          if (newPosition.x > borderArea.right) {
+            newPosition.x = borderArea.right;
+          }
+          if (newPosition.y > borderArea.bottom) {
+            newPosition.y = borderArea.bottom;
+          }
+        }
+
+        moveElement.style.left = newPosition.x + 'px';
+        moveElement.style.top = newPosition.y + 'px';
       };
 
       var onMouseUp = function (upEvt) {
@@ -52,5 +72,7 @@
 
     });
   };
-  window.moveElement = addDragAndDropToElement;
+  window.moveElement = {
+    addDragAndDrop: addDragAndDropToElement
+  };
 })();

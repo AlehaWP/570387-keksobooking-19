@@ -4,6 +4,13 @@
   var map = window.general.map;
   var filters = map.querySelector('.map__filters');
   var mainPin = map.querySelector('.map__pin--main');
+  var borderArea = {
+    top: 130,
+    right: map.clientWidth - mainPin.offsetWidth / 2,
+    bottom: 630,
+    left: 0 - mainPin.offsetWidth / 2
+  };
+  window.moveElement.addDragAndDrop(mainPin, mainPin);
 
   var activatePage = function () {
     window.page.setActive();
