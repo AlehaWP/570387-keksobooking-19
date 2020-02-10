@@ -81,8 +81,8 @@
       fillCardElement(elementToAdd, pinData);
       cardOpen = elementToAdd.querySelector('.popup');
       cardOpen.querySelector('.popup__close').addEventListener('click', onPopupCloseClick);
-      parrent.insertBefore(elementToAdd, elementAfter);
-      parrent.addEventListener('keydown', onCardKeyDownEsc);
+      parent.insertBefore(elementToAdd, elementAfter);
+      parent.addEventListener('keydown', onCardKeyDownEsc);
     }
   };
 
