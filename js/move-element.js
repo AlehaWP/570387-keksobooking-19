@@ -16,14 +16,14 @@
         moveEvt.preventDefault();
         dragged = true;
 
-        var newOrdinats = {
+        var newCoordinats = {
           x: moveEvt.clientX,
           y: moveEvt.clientY
         };
 
         var delta = {
-          x: newOrdinats.x - startCoordinates.x,
-          y: newOrdinats.y - startCoordinates.y
+          x: newCoordinats.x - startCoordinates.x,
+          y: newCoordinats.y - startCoordinates.y
         };
 
         startCoordinates = {
