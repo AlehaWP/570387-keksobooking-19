@@ -11,10 +11,6 @@
     window.form.setEnabled();
   };
 
-  var activatePage = function () {
-    setActive();
-  };
-
   var fillAddressByPin = function () {
     var addressField = window.general.form.querySelector('#address');
     addressField.value = window.map.mainPinPointer.x;
@@ -22,8 +18,7 @@
   };
 
   setNotActive();
-  window.map.subscribeOnMainPinClick(activatePage);
-  window.map.subscribeOnMainPinMouseUp(fillAddressByPin);
+  window.map.addEventsWithCallback(setActive, fillAddressByPin);
 
   window.page = {
     setActive: setActive,

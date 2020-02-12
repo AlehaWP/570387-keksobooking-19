@@ -54,7 +54,7 @@
       },
       'location': {
         'x': returnRandomNumber(mapWidth),
-        'y': returnRandomNumber(500) + 130
+        'y': returnRandomNumber(500) + 65
       }
     };
   };
