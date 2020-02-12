@@ -30,7 +30,13 @@
     filters.classList.remove('map__filters--disabled');
   };
 
-  window.pins.addTo(map);
+  var addPinsToMap = function () {
+    var mapFilters = map.querySelector('.map__filters-container');
+    var target = map.querySelector('.map__pins');
+    var fragmentToAdd = window.pins.returnFragmentWithPins(map, mapFilters);
+    target.appendChild(fragmentToAdd);
+  };
+  addPinsToMap();
 
   var addEventsWithCallback = function (onMainPinClickCallback, onMainPinMouseUpCallback) {
 
