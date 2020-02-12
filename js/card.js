@@ -73,7 +73,7 @@
     closeCard();
   };
 
-  var open = function (pinData, parrent, elementAfter) {
+  var open = function (pinData, parent, elementAfter) {
     if (cardOpen) {
       fillCardElement(cardOpen, pinData);
     } else {
@@ -81,8 +81,8 @@
       fillCardElement(elementToAdd, pinData);
       cardOpen = elementToAdd.querySelector('.popup');
       cardOpen.querySelector('.popup__close').addEventListener('click', onPopupCloseClick);
-      parrent.insertBefore(elementToAdd, elementAfter);
-      parrent.addEventListener('keydown', onCardKeyDownEsc);
+      parent.insertBefore(elementToAdd, elementAfter);
+      parent.addEventListener('keydown', onCardKeyDownEsc);
     }
   };
 
