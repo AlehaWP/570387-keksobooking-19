@@ -106,7 +106,6 @@
   setMinPriceByType();
 
   window.form = {
-    // fillAddressByPin: fillAddressByPin,
     setDisabled: setDisabled,
     setEnabled: setEnabled
   };
