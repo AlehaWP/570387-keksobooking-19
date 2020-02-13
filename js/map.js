@@ -7,6 +7,10 @@
   var mainPinWidthHalf = mainPin.offsetWidth / 2;
   var mainPinHeight = mainPin.offsetHeight;
   var LEFT_BUTTON_MOUSE_UP_CODE = 0;
+  var MARGIN_TOP = 65;
+  var MAX_HEIGHT_AREA = 500;
+  var HORIZONTAL_MARGIN = 0;
+  var HALF = 0.5;
 
   var mainPinPointer = {
     x: Math.round(mainPin.offsetLeft + mainPinWidthHalf),
@@ -14,10 +18,10 @@
   };
 
   var borderArea = {
-    top: 65,
-    right: map.clientWidth - mainPin.offsetWidth / 2,
-    bottom: 565,
-    left: 0 - mainPin.offsetWidth / 2
+    top: MARGIN_TOP,
+    right: map.clientWidth - mainPin.offsetWidth * HALF,
+    bottom: MARGIN_TOP + MAX_HEIGHT_AREA,
+    left: HORIZONTAL_MARGIN - mainPin.offsetWidth * HALF
   };
   window.moveElement.addDragAndDrop(mainPin, mainPin, borderArea);
 
