@@ -10,10 +10,11 @@
     var errorMessage = errorFragment.querySelector('.error');
     errorMessage.querySelector('.error__message').textContent = message;
     var button = errorMessage.querySelector('.error__button');
-    var firstElement = document.body.firstChild;
+    var main = document.body.querySelector('main');
+    var firstElement = main.firstChild;
 
     var closeErrorWindow = function () {
-      document.body.removeChild(errorMessage);
+      main.removeChild(errorMessage);
       document.removeEventListener('keydown', onEscKeyDown);
     };
 
@@ -34,7 +35,7 @@
     });
 
     document.addEventListener('keydown', onEscKeyDown);
-    document.body.insertBefore(errorFragment, firstElement);
+    main.insertBefore(errorFragment, firstElement);
   };
 
   window.error = {

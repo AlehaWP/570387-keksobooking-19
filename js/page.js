@@ -10,7 +10,7 @@
   var setActive = function () {
     window.map.setEnabled();
     window.form.setEnabled();
-    window.serverRequest.load(RESOURСE, window.map.addPinsToMap, window.error.onError);
+    window.serverRequest.load(RESOURСE, window.map.addPinsToMap, window.dialog.onError);
   };
 
   var fillAddressByPin = function () {

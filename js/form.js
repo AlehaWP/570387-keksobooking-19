@@ -105,6 +105,12 @@
 
   setMinPriceByType();
 
+  form.addEventListener('submit', function (evt) {
+    var url = 'https://js.dump.academy/keksobooking';
+    window.serverRequest.push(url, new FormData(form), window.dialog.onSuccess, window.dialog.onError);
+    evt.preventDefault();
+  });
+
   window.form = {
     setDisabled: setDisabled,
     setEnabled: setEnabled
