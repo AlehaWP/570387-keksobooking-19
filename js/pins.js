@@ -18,8 +18,7 @@
   };
 
 
-  var returnFragmentWithPins = function (parentBlockToAdd, elementAfter) {
-    var pins = window.dataMockup.returnPins(parentBlockToAdd.clientWidth);
+  var returnFragmentWithPins = function (pins, parentBlockToAdd, elementAfter) {
     var pinTemplate = document.querySelector('#pin');
     var fragment = document.createDocumentFragment();
     var newElement;
