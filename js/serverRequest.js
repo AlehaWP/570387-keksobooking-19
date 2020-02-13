@@ -2,6 +2,7 @@
 
 (function () {
   var SUCCESS = 200;
+  var TIMEOUT = 5000;
   var current = {};
   var tryAgainCounter = 0;
 
@@ -42,13 +43,13 @@
       getDataError('К сожалению, запрос не успел выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.');
     });
 
-    xhr.timeout = 5000; // 10s
+    xhr.timeout = TIMEOUT; // 10s
 
     xhr.open('GET', url);
     xhr.send();
   };
 
-  window.upload = {
+  window.serverRequest = {
     load: getDataFromServer
   };
 })();

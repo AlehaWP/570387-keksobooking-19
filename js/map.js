@@ -59,7 +59,15 @@
     });
   };
 
+  var addPinsToMap = function (pinData) {
+    var mapFilters = map.querySelector('.map__filters-container');
+    var target = map.querySelector('.map__pins');
+    var fragmentToAdd = window.pins.returnFragmentWithPins(pinData, map, mapFilters);
+    target.appendChild(fragmentToAdd);
+  };
+
   window.map = {
+    addPinsToMap: addPinsToMap,
     addEventsWithCallback: addEventsWithCallback,
     mainPinPointer: mainPinPointer,
     setEnabled: setEnabled,
