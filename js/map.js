@@ -59,7 +59,7 @@
     });
   };
 
-  var addPinsToMap = function (pinData) {
+  var addPins = function (pinData) {
     var mapFilters = map.querySelector('.map__filters-container');
     var target = map.querySelector('.map__pins');
     var fragmentToAdd = window.pins.returnFragmentWithPins(pinData, map, mapFilters);
@@ -67,7 +67,7 @@
   };
 
   window.map = {
-    addPinsToMap: addPinsToMap,
+    addPins: addPins,
     addEventsWithCallback: addEventsWithCallback,
     mainPinPointer: mainPinPointer,
     setEnabled: setEnabled,

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var RESOURСE = 'https://js.dump.academy/keksobooking/data';
+  var DATA_LOADING_RESOURСE = 'https://js.dump.academy/keksobooking/data';
   var setNotActive = function () {
     window.map.setDisabled();
     window.form.setDisabled();
@@ -10,7 +10,7 @@
   var setActive = function () {
     window.map.setEnabled();
     window.form.setEnabled();
-    window.serverRequest.load(RESOURСE, window.map.addPinsToMap, window.dialog.onError);
+    window.serverRequest.load(DATA_LOADING_RESOURСE, window.map.addPins, window.dialog.onError);
   };
 
   var fillAddressByPin = function () {
