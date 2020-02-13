@@ -22,6 +22,7 @@
   };
 
   setNotActive();
+
   window.map.addEventsWithCallback(setActive, fillAddressByPin);
 
   window.page = {
