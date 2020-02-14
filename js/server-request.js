@@ -2,7 +2,7 @@
 
 (function () {
   var SUCCESS = 200;
-  var TIMEOUT = 5000;
+  var TIMEOUT = 10000;
   var current = {};
   var tryAgainCounter = 0;
 
@@ -78,7 +78,7 @@
       exchangeDataError('К сожалению, отправка данных формы не успела выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.');
     });
 
-    xhr.timeout = TIMEOUT; // 10s
+    xhr.timeout = TIMEOUT;
 
     xhr.open('POST', url);
     xhr.send(data);

@@ -106,9 +106,8 @@
   setMinPriceByType();
 
   form.addEventListener('submit', function (evt) {
-    // отключено до 3го задания
-    // var url = 'https://js.dump.academy/keksobooking';
-    // window.serverRequest.push(url, new FormData(form), window.dialog.onSuccess, window.dialog.onError);
+    var url = 'https://js.dump.academy/keksobooking';
+    indow.serverRequest.push(url, new FormData(form), window.dialog.onSuccess, window.dialog.onError);
     evt.preventDefault();
   });
 
