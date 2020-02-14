@@ -3,14 +3,16 @@
 (function () {
   var LOGO_WIDTH = 40;
   var LOGO_HEIGHT = 40;
-  var activePins;
+  var activePins = [];
 
   var deleteAll = function () {
-    if (activePins) {
+    if (activePins.length) {
+
       var parentBlock = activePins[0].parentElement;
       activePins.forEach(function (item) {
         parentBlock.removeChild(item);
       });
+      activePins = [];
     }
 
     window.card.close();
@@ -32,7 +34,6 @@
 
 
   var returnFragmentWithPins = function (pins, parentBlockToAdd, elementAfter) {
-    activePins = [];
     var pinTemplate = document.querySelector('#pin');
     var fragment = document.createDocumentFragment();
     var newElement;

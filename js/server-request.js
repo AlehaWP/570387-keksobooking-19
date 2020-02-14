@@ -1,66 +1,57 @@
 'use strict';
 
 (function () {
-  var SUCCESS = 300;
+  var SUCCESS = 200;
   var TIMEOUT = 10000;
-  var current = {};
-  var tryAgainCounter = 0;
-
-  var tryAgain = function () {
-    if (current.data) {
-      pushDataToServer(current.url, current.data, current.onSuccess, current.onError);
-    } else {
-      getDataFromServer(current.url, current.onSuccess, current.onError);
-    }
-  };
-
-  var exchangeDataError = function (message) {
-    if (++tryAgainCounter < 5) {
-      current.onError(message, tryAgain);
-    } else {
-      current.onError('Ошибка получения данных с сервера. Приносим свои извинения! Попробуйте зайти на наш сайт через несколько минут');
-      tryAgainCounter = 0;
-    }
-  };
+  var NUMBER_ATTEMPS = 4;
 
   var getDataFromServer = function (url, onSuccess, onError) {
 
     var xhr = new XMLHttpRequest();
+    var tryAgainCounter = 0;
     xhr.responseType = 'json';
-    current.url = url;
-    current.data = null;
-    current.onSuccess = onSuccess;
-    current.onError = onError;
+
+    var xhrConnect = function () {
+      xhr.open('GET', url);
+      xhr.send();
+      if (tryAgainCounter++ > NUMBER_ATTEMPS) {
+        xhrConnect = null;
+      }
+    };
 
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCCESS) {
         onSuccess(xhr.response);
       } else {
-        exchangeDataError('Ошибка загрузки данных');
+        onError('Ошибка загрузки данных', xhrConnect);
       }
     });
 
     xhr.addEventListener('error', function () {
-      exchangeDataError('Произошла ошибка соединения');
+      onError('Произошла ошибка соединения', xhrConnect);
     });
 
     xhr.addEventListener('timeout', function () {
-      exchangeDataError('К сожалению, запрос не успел выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.');
+      onError('К сожалению, запрос не успел выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.', xhrConnect);
     });
 
     xhr.timeout = TIMEOUT; // 10s
 
-    xhr.open('GET', url);
-    xhr.send();
+    xhrConnect();
   };
 
   var pushDataToServer = function (url, data, onSuccess, onError) {
 
     var xhr = new XMLHttpRequest();
-    current.url = url;
-    current.data = data;
-    current.onSuccess = onSuccess;
-    current.onError = onError;
+    var tryAgainCounter = 0;
+
+    var xhrConnect = function () {
+      xhr.open('POST', url);
+      xhr.send(data);
+      if (tryAgainCounter++ > NUMBER_ATTEMPS) {
+        xhrConnect = null;
+      }
+    };
 
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCCESS) {
@@ -69,22 +60,21 @@
           onSuccessPostExternal();
         }
       } else {
-        exchangeDataError('Ошибка отправки данных');
+        onError('Ошибка отправки данных', xhrConnect);
       }
     });
 
     xhr.addEventListener('error', function () {
-      exchangeDataError('Произошла ошибка соединения');
+      onError('Произошла ошибка соединения', xhrConnect);
     });
 
     xhr.addEventListener('timeout', function () {
-      exchangeDataError('К сожалению, отправка данных формы не успела выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.');
+      onError('К сожалению, отправка данных формы не успела выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.', xhrConnect);
     });
 
     xhr.timeout = TIMEOUT;
 
-    xhr.open('POST', url);
-    xhr.send(data);
+    xhrConnect();
   };
 
   var onSuccessPostExternal;
