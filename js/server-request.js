@@ -3,7 +3,7 @@
 (function () {
   var SUCCESS = 200;
   var TIMEOUT = 10000;
-  var NUMBER_ATTEMPS = 4;
+  var NUMBER_ATTEMPTS = 4;
 
   var getDataFromServer = function (url, onSuccess, onError) {
 
@@ -14,7 +14,7 @@
     var xhrConnect = function () {
       xhr.open('GET', url);
       xhr.send();
-      if (tryAgainCounter++ > NUMBER_ATTEMPS) {
+      if (tryAgainCounter++ > NUMBER_ATTEMPTS) {
         xhrConnect = null;
       }
     };
@@ -48,7 +48,7 @@
     var xhrConnect = function () {
       xhr.open('POST', url);
       xhr.send(data);
-      if (tryAgainCounter++ > NUMBER_ATTEMPS) {
+      if (tryAgainCounter++ > NUMBER_ATTEMPTS) {
         xhrConnect = null;
       }
     };
