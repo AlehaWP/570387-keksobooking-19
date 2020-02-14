@@ -8,6 +8,8 @@
     'bungalo': 0
   };
 
+  var RESOURСE_TO_SEND = 'https://js.dump.academy/keksobooking';
+
   var form = window.general.form;
   var elementsInputSelect = form.querySelectorAll('input, select, textarea, button');
 
@@ -105,7 +107,18 @@
 
   setMinPriceByType();
 
+  var formReset = function () {
+    form.reset();
+  };
+
+  form.addEventListener('submit', function (evt) {
+    var url = RESOURСE_TO_SEND;
+    window.serverRequest.push(url, new FormData(form), window.dialog.onSuccess, window.dialog.onError);
+    evt.preventDefault();
+  });
+
   window.form = {
+    reset: formReset,
     setDisabled: setDisabled,
     setEnabled: setEnabled
   };

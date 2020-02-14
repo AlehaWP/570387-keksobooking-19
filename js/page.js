@@ -5,12 +5,13 @@
   var setNotActive = function () {
     window.map.setDisabled();
     window.form.setDisabled();
+    window.form.reset();
   };
 
   var setActive = function () {
     window.map.setEnabled();
     window.form.setEnabled();
-    window.serverRequest.load(DATA_LOADING_RESOURСE, window.map.addPins, window.error.onError);
+    window.serverRequest.load(DATA_LOADING_RESOURСE, window.map.addPins, window.dialog.onError);
   };
 
   var fillAddressByPin = function () {
@@ -20,7 +21,7 @@
   };
 
   setNotActive();
-
+  window.serverRequest.subscribeOnSuccessPost(setNotActive);
   window.map.addEventsWithCallback(setActive, fillAddressByPin);
 
   window.page = {

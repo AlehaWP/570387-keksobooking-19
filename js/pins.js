@@ -3,9 +3,24 @@
 (function () {
   var LOGO_WIDTH = 40;
   var LOGO_HEIGHT = 40;
+  var activePins = [];
+
+  var deleteAll = function () {
+    if (activePins.length) {
+
+      var parentBlock = activePins[0].parentElement;
+      activePins.forEach(function (item) {
+        parentBlock.removeChild(item);
+      });
+      activePins = [];
+    }
+
+    window.card.close();
+  };
 
   var fillPinElement = function (newElement, pinData, parentBlock, elementAfter) {
     var pinButton = newElement.querySelector('.map__pin');
+    activePins.push(pinButton);
     pinButton.style = 'left: ' + (pinData.location.x - LOGO_WIDTH / 2) + 'px;top: ' + (pinData.location.y - LOGO_HEIGHT) + 'px;';
 
     pinButton.addEventListener('click', function () {
@@ -32,6 +47,7 @@
 
 
   window.pins = {
-    returnFragmentWithPins: returnFragmentWithPins
+    returnFragmentWithPins: returnFragmentWithPins,
+    deleteAll: deleteAll
   };
 })();

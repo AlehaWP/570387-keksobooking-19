@@ -57,10 +57,12 @@
   };
 
   var closeCard = function () {
-    var parent = cardOpen.parentElement;
-    parent.removeChild(cardOpen);
-    parent.removeEventListener('keydown', onCardKeyDownEsc);
-    cardOpen = null;
+    if (cardOpen) {
+      var parent = cardOpen.parentElement;
+      parent.removeChild(cardOpen);
+      parent.removeEventListener('keydown', onCardKeyDownEsc);
+      cardOpen = null;
+    }
   };
 
   var onCardKeyDownEsc = function (evt) {
@@ -87,6 +89,7 @@
   };
 
   window.card = {
-    open: open
+    open: open,
+    close: closeCard
   };
 })();
