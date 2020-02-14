@@ -3,6 +3,7 @@
 (function () {
   var map = window.general.map;
   var filters = map.querySelector('.map__filters');
+  var mapPins = map.querySelector('.map__pins');
   var mainPin = map.querySelector('.map__pin--main');
   var mainPinWidthHalf = mainPin.offsetWidth / 2;
   var mainPinHeight = mainPin.offsetHeight;
@@ -25,8 +26,19 @@
   };
   window.moveElement.addDragAndDrop(mainPin, mainPin, borderArea);
 
+  var deletePins = function () {
+    mapPins.innerHTML = '';
+  };
+
+  var addPins = function (pinData) {
+    var mapFilters = map.querySelector('.map__filters-container');
+    var fragmentToAdd = window.pins.returnFragmentWithPins(pinData, map, mapFilters);
+    mapPins.appendChild(fragmentToAdd);
+  };
+
   var setDisabled = function () {
     filters.classList.add('map__filters--disabled');
+    //deletePins();
   };
 
   var setEnabled = function () {
@@ -59,15 +71,9 @@
     });
   };
 
-  var addPins = function (pinData) {
-    var mapFilters = map.querySelector('.map__filters-container');
-    var target = map.querySelector('.map__pins');
-    var fragmentToAdd = window.pins.returnFragmentWithPins(pinData, map, mapFilters);
-    target.appendChild(fragmentToAdd);
-  };
-
   window.map = {
     addPins: addPins,
+    deletePins: deletePins,
     addEventsWithCallback: addEventsWithCallback,
     mainPinPointer: mainPinPointer,
     setEnabled: setEnabled,

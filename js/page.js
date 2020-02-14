@@ -5,6 +5,7 @@
   var setNotActive = function () {
     window.map.setDisabled();
     window.form.setDisabled();
+    window.form.reset();
   };
 
   var setActive = function () {
@@ -20,6 +21,7 @@
   };
 
   setNotActive();
+  window.form.subscribeOnSubmit(setActive);
 
   window.map.addEventsWithCallback(setActive, fillAddressByPin);
 
