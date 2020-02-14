@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var SUCCESS = 200;
+  var SUCCESS = 300;
   var TIMEOUT = 10000;
   var current = {};
   var tryAgainCounter = 0;
@@ -65,6 +65,9 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCCESS) {
         onSuccess('Данные сохранены на сервере');
+        if (onSuccessPostExternal) {
+          onSuccessPostExternal();
+        }
       } else {
         exchangeDataError('Ошибка отправки данных');
       }
@@ -84,8 +87,14 @@
     xhr.send(data);
   };
 
+  var onSuccessPostExternal;
+  var subscribeOnSuccessPost = function (subscribe) {
+    onSuccessPostExternal = subscribe;
+  };
+
   window.serverRequest = {
     load: getDataFromServer,
-    push: pushDataToServer
+    push: pushDataToServer,
+    subscribeOnSuccessPost: subscribeOnSuccessPost
   };
 })();

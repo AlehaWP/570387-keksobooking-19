@@ -26,10 +26,6 @@
   };
   window.moveElement.addDragAndDrop(mainPin, mainPin, borderArea);
 
-  var deletePins = function () {
-    mapPins.innerHTML = '';
-  };
-
   var addPins = function (pinData) {
     var mapFilters = map.querySelector('.map__filters-container');
     var fragmentToAdd = window.pins.returnFragmentWithPins(pinData, map, mapFilters);
@@ -37,12 +33,13 @@
   };
 
   var setDisabled = function () {
+    map.classList.add('map--faded');
     filters.classList.add('map__filters--disabled');
-    //deletePins();
+    window.pins.deleteAll();
   };
 
   var setEnabled = function () {
-    window.general.map.classList.remove('map--faded');
+    map.classList.remove('map--faded');
     filters.classList.remove('map__filters--disabled');
   };
 
@@ -73,7 +70,6 @@
 
   window.map = {
     addPins: addPins,
-    deletePins: deletePins,
     addEventsWithCallback: addEventsWithCallback,
     mainPinPointer: mainPinPointer,
     setEnabled: setEnabled,

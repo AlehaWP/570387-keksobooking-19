@@ -21,8 +21,7 @@
   };
 
   setNotActive();
-  window.form.subscribeOnSubmit(setActive);
-
+  window.serverRequest.subscribeOnSuccessPost(setNotActive);
   window.map.addEventsWithCallback(setActive, fillAddressByPin);
 
   window.page = {

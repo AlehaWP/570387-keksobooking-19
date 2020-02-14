@@ -109,22 +109,13 @@
     form.reset();
   };
 
-  var onSubmitExternal;
-  var subscribeOnSubmit = function (subscribe) {
-    onSubmitExternal = subscribe;
-  };
-
   form.addEventListener('submit', function (evt) {
     var url = 'https://js.dump.academy/keksobooking';
     window.serverRequest.push(url, new FormData(form), window.dialog.onSuccess, window.dialog.onError);
-    if (onSubmitExternal) {
-      onSubmitExternal();
-    }
     evt.preventDefault();
   });
 
   window.form = {
-    subscribeOnSubmit: subscribeOnSubmit,
     reset: formReset,
     setDisabled: setDisabled,
     setEnabled: setEnabled
