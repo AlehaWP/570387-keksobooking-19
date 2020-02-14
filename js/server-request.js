@@ -7,14 +7,10 @@
   var tryAgainCounter = 0;
 
   var tryAgain = function () {
-    if (current.data) {
-      pushDataToServer(current.url, current.data, current.onSuccess, current.onError);
-    } else {
-      getDataFromServer(current.url, current.onSuccess, current.onError);
-    }
+    getDataFromServer(current.url, current.onSuccess, current.onError);
   };
 
-  var exchangeDataError = function (message) {
+  var getDataError = function (message) {
     if (++tryAgainCounter < 5) {
       current.onError(message, tryAgain);
     } else {
@@ -28,7 +24,6 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     current.url = url;
-    current.data = null;
     current.onSuccess = onSuccess;
     current.onError = onError;
 
@@ -36,16 +31,16 @@
       if (xhr.status === SUCCESS) {
         onSuccess(xhr.response);
       } else {
-        exchangeDataError('Ошибка загрузки данных');
+        getDataError('Ошибка загрузки данных');
       }
     });
 
     xhr.addEventListener('error', function () {
-      exchangeDataError('Произошла ошибка соединения');
+      getDataError('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      exchangeDataError('К сожалению, запрос не успел выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.');
+      getDataError('К сожалению, запрос не успел выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.');
     });
 
     xhr.timeout = TIMEOUT; // 10s
@@ -54,38 +49,7 @@
     xhr.send();
   };
 
-  var pushDataToServer = function (url, data, onSuccess, onError) {
-
-    var xhr = new XMLHttpRequest();
-    current.url = url;
-    current.data = data;
-    current.onSuccess = onSuccess;
-    current.onError = onError;
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === SUCCESS) {
-        onSuccess('Данные сохранены на сервере');
-      } else {
-        exchangeDataError('Ошибка отправки данных');
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      exchangeDataError('Произошла ошибка соединения');
-    });
-
-    xhr.addEventListener('timeout', function () {
-      exchangeDataError('К сожалению, отправка данных формы не успела выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.');
-    });
-
-    xhr.timeout = TIMEOUT; // 10s
-
-    xhr.open('POST', url);
-    xhr.send(data);
-  };
-
   window.serverRequest = {
-    load: getDataFromServer,
-    push: pushDataToServer
+    load: getDataFromServer
   };
 })();
