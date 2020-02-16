@@ -13,6 +13,7 @@
   var pinsFromServer;
   var mapFiltersBlock = map.querySelector('.map__filters');
   var mapFilters = mapFiltersBlock.querySelectorAll(':scope > *');
+  var houseTypeFilter = mapFiltersBlock.querySelector('#housing-type');
   var mapPins = map.querySelector('.map__pins');
   var mainPin = map.querySelector('.map__pin--main');
   var mainPinWidthHalf = mainPin.offsetWidth / 2;
@@ -56,6 +57,19 @@
     addPins(pinsFromServer.slice(0, PIN_LIMIT));
   };
 
+  var pinsAddFilter = function (key, value) {
+    var result = [];
+    // any
+
+    for (var i = 0; i < pinsFromServer.length && result.length < PIN_LIMIT; i++) {
+      if (pinsFromServer[i].offer[key] === value) {
+        result.push(pinsFromServer[i]);
+      }
+    }
+    window.pins.deleteAll();
+    addPins(result);
+  };
+
   var setDisabled = function () {
     map.classList.add('map--faded');
     pinsFromServer = null;
@@ -92,6 +106,10 @@
       }
     });
   };
+
+  houseTypeFilter.addEventListener('change', function () {
+    pinsAddFilter('type', houseTypeFilter.value);
+  });
 
   window.map = {
     addPins: addPins,
