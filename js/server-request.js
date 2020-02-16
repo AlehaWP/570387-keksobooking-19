@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var SUCCESS = 300;
+  var SUCCESS = 200;
   var TIMEOUT = 10000;
   var NUMBER_ATTEMPTS = 4;
 

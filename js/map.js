@@ -8,13 +8,15 @@
   var MAX_HEIGHT_AREA = 500;
   var HORIZONTAL_MARGIN = 0;
   var HALF = 0.5;
+  var PIN_LIMIT = 5;
   var map = window.general.map;
-  var filters = map.querySelectorAll('.map__filters>*');
+  var pinsFromServer;
+  var mapFiltersBlock = map.querySelector('.map__filters');
+  var mapFilters = mapFiltersBlock.querySelectorAll(':scope > *');
   var mapPins = map.querySelector('.map__pins');
   var mainPin = map.querySelector('.map__pin--main');
   var mainPinWidthHalf = mainPin.offsetWidth / 2;
   var mainPinHeight = mainPin.offsetHeight;
-
 
   var mainPinPointer = {
     x: Math.round(mainPin.offsetLeft + mainPinWidthHalf),
@@ -31,35 +33,39 @@
 
   var setFiltersEnabled = function () {
 
-    filters.forEach(function (item) {
+    mapFilters.forEach(function (item) {
       item.removeAttribute('disabled');
     });
   };
 
   var setFiltersDisabled = function () {
-    filters.forEach(function (item) {
+    mapFilters.forEach(function (item) {
       item.setAttribute('disabled', '');
     });
   };
 
   var addPins = function (pinData) {
-    var mapFilters = map.querySelector('.map__filters-container');
-    var fragmentToAdd = window.pins.returnFragmentWithPins(pinData, map, mapFilters);
+    var elementAfterCard = map.querySelector('.map__filters-container');
+    var fragmentToAdd = window.pins.returnFragmentWithPins(pinData, map, elementAfterCard);
     mapPins.appendChild(fragmentToAdd);
-    if (pinData) {
-      setFiltersEnabled();
-    }
+  };
+
+  var getPinsFromServer = function (pinData) {
+    pinsFromServer = pinData.slice();
+    setFiltersEnabled();
+    addPins(pinsFromServer.slice(0, PIN_LIMIT));
   };
 
   var setDisabled = function () {
     map.classList.add('map--faded');
+    pinsFromServer = null;
     setFiltersDisabled();
     window.pins.deleteAll();
   };
 
   var setEnabled = function () {
     map.classList.remove('map--faded');
-    window.serverRequest.load(DATA_LOADING_RESOURСE, addPins, window.dialog.onError);
+    window.serverRequest.load(DATA_LOADING_RESOURСE, getPinsFromServer, window.dialog.onError);
   };
 
   var addEventsWithCallback = function (onMainPinClickCallback, onMainPinMouseUpCallback) {
