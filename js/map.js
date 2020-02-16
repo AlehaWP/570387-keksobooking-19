@@ -1,17 +1,20 @@
 'use strict';
 
 (function () {
-  var map = window.general.map;
-  var filters = map.querySelector('.map__filters');
-  var mapPins = map.querySelector('.map__pins');
-  var mainPin = map.querySelector('.map__pin--main');
-  var mainPinWidthHalf = mainPin.offsetWidth / 2;
-  var mainPinHeight = mainPin.offsetHeight;
+
+  var DATA_LOADING_RESOURСE = 'https://js.dump.academy/keksobooking/data';
   var LEFT_BUTTON_MOUSE_UP_CODE = 0;
   var MARGIN_TOP = 65;
   var MAX_HEIGHT_AREA = 500;
   var HORIZONTAL_MARGIN = 0;
   var HALF = 0.5;
+  var map = window.general.map;
+  var filters = map.querySelectorAll('.map__filters>*');
+  var mapPins = map.querySelector('.map__pins');
+  var mainPin = map.querySelector('.map__pin--main');
+  var mainPinWidthHalf = mainPin.offsetWidth / 2;
+  var mainPinHeight = mainPin.offsetHeight;
+
 
   var mainPinPointer = {
     x: Math.round(mainPin.offsetLeft + mainPinWidthHalf),
@@ -26,21 +29,37 @@
   };
   window.moveElement.addDragAndDrop(mainPin, mainPin, borderArea);
 
+  var setFiltersEnabled = function () {
+
+    filters.forEach(function (item) {
+      item.removeAttribute('disabled');
+    });
+  };
+
+  var setFiltersDisabled = function () {
+    filters.forEach(function (item) {
+      item.setAttribute('disabled', '');
+    });
+  };
+
   var addPins = function (pinData) {
     var mapFilters = map.querySelector('.map__filters-container');
     var fragmentToAdd = window.pins.returnFragmentWithPins(pinData, map, mapFilters);
     mapPins.appendChild(fragmentToAdd);
+    if (pinData) {
+      setFiltersEnabled();
+    }
   };
 
   var setDisabled = function () {
     map.classList.add('map--faded');
-    filters.classList.add('map__filters--disabled');
+    setFiltersDisabled();
     window.pins.deleteAll();
   };
 
   var setEnabled = function () {
     map.classList.remove('map--faded');
-    filters.classList.remove('map__filters--disabled');
+    window.serverRequest.load(DATA_LOADING_RESOURСE, addPins, window.dialog.onError);
   };
 
   var addEventsWithCallback = function (onMainPinClickCallback, onMainPinMouseUpCallback) {
