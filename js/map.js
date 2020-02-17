@@ -48,6 +48,7 @@
     mapFilters.forEach(function (item) {
       item.setAttribute('disabled', '');
     });
+    mapFiltersBlock.reset();
   };
 
   var addPins = function (pinData) {
