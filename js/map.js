@@ -13,11 +13,16 @@
   var pinsFromServer;
   var mapFiltersBlock = map.querySelector('.map__filters');
   var mapFilters = mapFiltersBlock.querySelectorAll(':scope > *');
-  var houseTypeFilter = mapFiltersBlock.querySelector('#housing-type');
   var mapPins = map.querySelector('.map__pins');
   var mainPin = map.querySelector('.map__pin--main');
   var mainPinWidthHalf = mainPin.offsetWidth / 2;
   var mainPinHeight = mainPin.offsetHeight;
+
+  var priceCostsMap = {
+    low: [-Infinity, 10000],
+    middle: [10000, 50000],
+    high: [50000, Infinity]
+  };
 
   var mainPinPointer = {
     x: Math.round(mainPin.offsetLeft + mainPinWidthHalf),
@@ -57,14 +62,39 @@
     addPins(pinsFromServer.slice(0, PIN_LIMIT));
   };
 
-  var pinsAddFilter = function (key, value) {
-    var result = [];
-    // any
+  var pinsAddFilter = function (formData) {
+    var typeFilter = formData.get('housing-type');
+    var priceFilter = formData.get('housing-price');
+    var roomsFilter = formData.get('housing-rooms');
+    var guestsFilter = formData.get('housing-guests');
+    var featuresFilter = formData.getAll('features');
+    var offer;
 
+    var result = [];
     for (var i = 0; i < pinsFromServer.length && result.length < PIN_LIMIT; i++) {
-      if (pinsFromServer[i].offer[key] === value) {
-        result.push(pinsFromServer[i]);
+      offer = pinsFromServer[i].offer;
+      if (typeFilter !== 'any' && offer.type !== typeFilter) {
+        continue;
       }
+
+      if (priceFilter !== 'any' && !(priceCostsMap[priceFilter][0] <= offer.price && offer.price < priceCostsMap[priceFilter][1])) {
+        continue;
+      }
+      if (roomsFilter !== 'any' && offer.rooms !== +roomsFilter) {
+        continue;
+      }
+      if ((guestsFilter !== 'any' && offer.guests < guestsFilter) || (offer.guests !== guestsFilter && guestsFilter === '0')) {
+        continue;
+      }
+      if (featuresFilter !== []) {
+        var notFindedElements = featuresFilter.filter(function (item) {
+          return offer.features.indexOf(item) === -1;
+        });
+        if (notFindedElements.length) {
+          continue;
+        }
+      }
+      result.push(pinsFromServer[i]);
     }
     window.pins.deleteAll();
     addPins(result);
@@ -107,8 +137,8 @@
     });
   };
 
-  houseTypeFilter.addEventListener('change', function () {
-    pinsAddFilter('type', houseTypeFilter.value);
+  mapFiltersBlock.addEventListener('change', function () {
+    pinsAddFilter(new FormData(mapFiltersBlock));
   });
 
   window.map = {
