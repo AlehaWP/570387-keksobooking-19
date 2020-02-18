@@ -138,9 +138,9 @@
     });
   };
 
-  mapFiltersBlock.addEventListener('change', function () {
+  mapFiltersBlock.addEventListener('change', window.debounce(function () {
     pinsAddFilter(new FormData(mapFiltersBlock));
-  });
+  }));
 
   window.map = {
     addPins: addPins,
