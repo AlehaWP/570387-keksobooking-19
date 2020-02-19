@@ -88,10 +88,16 @@
     }
   };
 
+  var addImageLoad = function () {
+    window.addImageLoad(document.querySelector('.ad-form-header__preview'), document.querySelector('.ad-form__field'), window.dialog.error);
+    window.addImageLoad(document.querySelector('.ad-form__photo'), document.querySelector('.ad-form__upload'), window.dialog.error);
+  };
+
   var setEnabled = function () {
     form.classList.remove('ad-form--disabled');
     setInputStateEnabled();
     checkCapacityByRoomsNumber();
+    addImageLoad();
   };
 
   var setInputStateDisabled = function () {
