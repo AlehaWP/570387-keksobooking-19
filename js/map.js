@@ -19,9 +19,9 @@
   var mainPinHeight = mainPin.offsetHeight;
 
   var priceCostsMap = {
-    low: [-Infinity, 10000],
+    low: [0, 10000],
     middle: [10000, 50000],
-    high: [50000, Infinity]
+    high: [50000, 1000000]
   };
 
   var mainPinPointer = {
