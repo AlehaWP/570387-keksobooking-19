@@ -18,12 +18,6 @@
   var mainPinWidthHalf = mainPin.offsetWidth / 2;
   var mainPinHeight = mainPin.offsetHeight;
 
-  var priceCostsMap = {
-    low: [0, 10000],
-    middle: [10000, 50000],
-    high: [50000, 1000000]
-  };
-
   var mainPinPointer = {
     x: Math.round(mainPin.offsetLeft + mainPinWidthHalf),
     y: Math.round(mainPin.offsetTop + mainPinHeight)
@@ -64,39 +58,8 @@
   };
 
   var pinsAddFilter = function (formData) {
-    var typeFilter = formData.get('housing-type');
-    var priceFilter = formData.get('housing-price');
-    var roomsFilter = formData.get('housing-rooms');
-    var guestsFilter = formData.get('housing-guests');
-    var featuresFilter = formData.getAll('features');
-    var offer;
+    var result = window.filterPins(formData, pinsFromServer);
 
-    var result = [];
-    for (var i = 0; i < pinsFromServer.length && result.length < PIN_LIMIT; i++) {
-      offer = pinsFromServer[i].offer;
-      if (typeFilter !== 'any' && offer.type !== typeFilter) {
-        continue;
-      }
-
-      if (priceFilter !== 'any' && !(priceCostsMap[priceFilter][0] <= offer.price && offer.price < priceCostsMap[priceFilter][1])) {
-        continue;
-      }
-      if (roomsFilter !== 'any' && offer.rooms !== +roomsFilter) {
-        continue;
-      }
-      if ((guestsFilter !== 'any' && offer.guests < guestsFilter) || (offer.guests !== guestsFilter && guestsFilter === '0')) {
-        continue;
-      }
-      if (featuresFilter !== []) {
-        var notFindedElements = featuresFilter.filter(function (item) {
-          return offer.features.indexOf(item) === -1;
-        });
-        if (notFindedElements.length) {
-          continue;
-        }
-      }
-      result.push(pinsFromServer[i]);
-    }
     window.pins.deleteAll();
     addPins(result);
   };

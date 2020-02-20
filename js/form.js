@@ -87,6 +87,7 @@
       elementsInputSelect[i].removeAttribute('disabled');
     }
   };
+
   var adFormHeaderPreview = document.querySelector('.ad-form-header__preview');
   var adFormField = document.querySelector('.ad-form__field input[type="file"]');
   var adFormPhoto = document.querySelector('.ad-form__photo');
