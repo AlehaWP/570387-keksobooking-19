@@ -5,13 +5,6 @@
   var cardOpen;
   var cardTemplate = document.querySelector('#card');
 
-  var translatedHouseName = {
-    'flat': 'Kвартира',
-    'bungalo': 'Бунгало',
-    'house': 'Дом',
-    'palace': 'Дворец'
-  };
-
   var returnFragmentFeatures = function (features, template) {
     var fragment = document.createDocumentFragment();
     var newFeature;
@@ -28,7 +21,7 @@
     card.querySelector('.popup__title').textContent = pinData.offer.title;
     card.querySelector('.popup__text--address').textContent = pinData.offer.address;
     card.querySelector('.popup__text--price').textContent = pinData.offer.price + '₽/ночь';
-    card.querySelector('.popup__type').textContent = translatedHouseName[pinData.offer.type];
+    card.querySelector('.popup__type').textContent = window.general.translatedHouseName[pinData.offer.type];
     card.querySelector('.popup__text--capacity').textContent = pinData.offer.rooms + ' комнаты  для ' + pinData.offer.guests + ' гостей';
     card.querySelector('.popup__text--time').textContent = 'Заезд после ' + pinData.offer.checkin + ', выезд до ' + pinData.offer.checkout;
     card.querySelector('.popup__description').textContent = pinData.offer.description;

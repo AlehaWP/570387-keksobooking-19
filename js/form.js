@@ -88,10 +88,27 @@
     }
   };
 
+  var adFormHeaderPreview = document.querySelector('.ad-form-header__preview');
+  var adFormField = document.querySelector('.ad-form__field input[type="file"]');
+  var adFormPhoto = document.querySelector('.ad-form__photo');
+  var adFormUpload = document.querySelector('.ad-form__upload input[type="file"]');
+
+
+  var addImageLoad = function () {
+    window.addImage.load(adFormHeaderPreview, adFormField, window.dialog.error);
+    window.addImage.load(adFormPhoto, adFormUpload, window.dialog.error);
+  };
+
+  var removeImageLoad = function () {
+    window.addImage.removeLoad(adFormField.id);
+    window.addImage.removeLoad(adFormUpload.id);
+  };
+
   var setEnabled = function () {
     form.classList.remove('ad-form--disabled');
     setInputStateEnabled();
     checkCapacityByRoomsNumber();
+    addImageLoad();
   };
 
   var setInputStateDisabled = function () {
@@ -103,6 +120,7 @@
   var setDisabled = function () {
     form.classList.add('ad-form--disabled');
     setInputStateDisabled();
+    removeImageLoad();
   };
 
   setMinPriceByType();
