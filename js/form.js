@@ -87,7 +87,6 @@
 
   houseType.addEventListener('change', onPriceChange);
 
-
   var setInputStateEnabled = function () {
     for (var i = 0; i < elementsInputSelect.length; i++) {
       elementsInputSelect[i].removeAttribute('disabled');
