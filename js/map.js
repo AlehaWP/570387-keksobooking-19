@@ -17,6 +17,7 @@
   var mainPin = map.querySelector('.map__pin--main');
   var mainPinWidthHalf = mainPin.offsetWidth / 2;
   var mainPinHeight = mainPin.offsetHeight;
+  var mainPinStartPosition;
 
   var mainPinPointer = {
     x: Math.round(mainPin.offsetLeft + mainPinWidthHalf),
@@ -64,11 +65,19 @@
     addPins(result);
   };
 
+  var resetMainPinPosition = function () {
+    if (mainPinStartPosition) {
+      mainPin.style.left = mainPinStartPosition.x;
+      mainPin.style.top = mainPinStartPosition.y;
+    }
+  };
+
   var setDisabled = function () {
     map.classList.add('map--faded');
     pinsFromServer = null;
     setFiltersDisabled();
     window.pins.deleteAll();
+    resetMainPinPosition();
   };
 
   var setEnabled = function () {
@@ -81,6 +90,13 @@
     mainPin.addEventListener('mousedown', function (evt) {
       if (evt.buttons === window.general.LEFT_MOUSE_BUTTON) {
         onMainPinClickCallback();
+
+        if (!mainPinStartPosition) {
+          mainPinStartPosition = {
+            x: mainPin.style.left,
+            y: mainPin.style.top
+          };
+        }
 
         var onMainPinMouseUp = function () {
           if (evt.button === LEFT_BUTTON_MOUSE_UP_CODE) {
