@@ -12,6 +12,8 @@
 
   var form = window.general.form;
   var elementsInputSelect = form.querySelectorAll('input, select, textarea, button');
+  var roomNumber = form.querySelector('#room_number');
+  var capacity = form.querySelector('#capacity');
 
   var checkCapacityByRoomsNumber = function () {
     var rooms = Number(roomNumber.value);
@@ -25,9 +27,12 @@
     }
   };
 
-  var roomNumber = form.querySelector('#room_number');
-  var capacity = form.querySelector('#capacity');
-
+  var setCapacityByRoomsNumber = function () {
+    if (capacity.value !== roomNumber.value) {
+      capacity.querySelector('[selected]').removeAttribute('selected');
+      capacity.querySelector('[value="' + roomNumber.value + '"]').setAttribute('selected', '');
+    }
+  };
 
   roomNumber.addEventListener('change', function () {
     checkCapacityByRoomsNumber();
@@ -73,6 +78,7 @@
   var price = form.querySelector('#price');
   var setMinPriceByType = function () {
     price.setAttribute('min', HOUSE_TYPE_MIN_PRICE[houseType.value]);
+    price.setAttribute('placeholder', HOUSE_TYPE_MIN_PRICE[houseType.value]);
   };
 
   var onPriceChange = function () {
@@ -123,8 +129,6 @@
     removeImageLoad();
   };
 
-  setMinPriceByType();
-
   var formReset = function () {
     form.reset();
   };
@@ -134,6 +138,9 @@
     window.serverRequest.push(url, new FormData(form), window.dialog.onSuccess, window.dialog.onError);
     evt.preventDefault();
   });
+
+  setMinPriceByType();
+  setCapacityByRoomsNumber();
 
   window.form = {
     reset: formReset,
