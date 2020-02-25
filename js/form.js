@@ -99,7 +99,6 @@
   var adFormPhoto = document.querySelector('.ad-form__photo');
   var adFormUpload = document.querySelector('.ad-form__upload input[type="file"]');
 
-
   var addImageLoad = function () {
     window.addImage.load(adFormHeaderPreview, adFormField, window.dialog.error);
     window.addImage.load(adFormPhoto, adFormUpload, window.dialog.error);
