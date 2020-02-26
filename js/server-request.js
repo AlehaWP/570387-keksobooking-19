@@ -44,9 +44,6 @@
       if (xhr.status === SUCCESS) {
         if (type === 'POST') {
           onSuccess('Данные сохранены на сервере');
-          if (onSuccessPostExternal) {
-            onSuccessPostExternal();
-          }
         } else {
           onSuccess(xhr.response);
         }
@@ -76,14 +73,9 @@
     exchangeWithServer(url, onSuccess, onError, 'POST', data);
   };
 
-  var onSuccessPostExternal;
-  var subscribeOnSuccessPost = function (subscribe) {
-    onSuccessPostExternal = subscribe;
-  };
 
   window.serverRequest = {
     load: getDataFromServer,
-    push: pushDataToServer,
-    subscribeOnSuccessPost: subscribeOnSuccessPost
+    push: pushDataToServer
   };
 })();

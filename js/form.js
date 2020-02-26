@@ -131,21 +131,27 @@
     removeImageLoad();
   };
 
-  var formReset = function () {
+
+  var onFormPostSuccess = function () {
+    window.dialog.onSuccess('Данные успешно опубликованы');
     form.reset();
   };
 
   form.addEventListener('submit', function (evt) {
-    window.serverRequest.push(RESOURCE_TO_SEND, new FormData(form), window.dialog.onSuccess, window.dialog.onError);
+    window.serverRequest.push(RESOURCE_TO_SEND, new FormData(form), onFormPostSuccess, window.dialog.onError);
     evt.preventDefault();
   });
+
+  var signOuterElementToReset = function (callBack) {
+    form.addEventListener('reset', callBack);
+  };
 
   setMinPriceByType();
   setCapacityByRoomsNumber();
 
   window.form = {
-    reset: formReset,
     setDisabled: setDisabled,
-    setEnabled: setEnabled
+    setEnabled: setEnabled,
+    signOuterElementToReset: signOuterElementToReset
   };
 })();

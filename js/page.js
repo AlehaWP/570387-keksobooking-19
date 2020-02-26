@@ -1,10 +1,12 @@
 'use strict';
 
 (function () {
+  var addressField = window.general.form.querySelector('#address');
+
   var setNotActive = function () {
     window.map.setDisabled();
     window.form.setDisabled();
-    window.form.reset();
+    fillAddressByPin();
   };
 
   var setActive = function () {
@@ -13,14 +15,13 @@
   };
 
   var fillAddressByPin = function () {
-    var addressField = window.general.form.querySelector('#address');
     addressField.value = window.map.mainPinPointer.x;
     addressField.value += ', ' + window.map.mainPinPointer.y;
   };
 
   setNotActive();
-  window.serverRequest.subscribeOnSuccessPost(setNotActive);
   window.map.addEventsWithCallback(setActive, fillAddressByPin);
+  window.form.signOuterElementToReset(setNotActive);
 
   window.page = {
     setActive: setActive,

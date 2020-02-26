@@ -73,11 +73,11 @@
   };
 
   var setDisabled = function () {
+    resetMainPinPosition();
     map.classList.add('map--faded');
     pinsFromServer = null;
     setFiltersDisabled();
     window.pins.deleteAll();
-    resetMainPinPosition();
   };
 
   var setEnabled = function () {
