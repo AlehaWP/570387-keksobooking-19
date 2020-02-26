@@ -44,14 +44,18 @@
 
   var formTitle = form.querySelector('#title');
   formTitle.addEventListener('invalid', function () {
-    if (formTitle.validity.tooShort) {
-      formTitle.setCustomValidity('Минимальная длина заголовка 30 символов');
-    } else if (formTitle.validity.toLong) {
-      formTitle.setCustomValidity('Максимальная длина заголовка 100 символов');
-    } else if (formTitle.validity.valueMissing) {
-      formTitle.setCustomValidity('Поле обязательно для заполнения');
-    } else {
-      formTitle.setCustomValidity('');
+    switch (true) {
+      case formTitle.validity.valueMissing:
+        formTitle.setCustomValidity('Поле обязательно для заполнения');
+        break;
+      case formTitle.validity.tooShort:
+        formTitle.setCustomValidity('Минимальная длина заголовка 30 символов');
+        break;
+      case formTitle.validity.toLong:
+        formTitle.setCustomValidity('Максимальная длина заголовка 100 символов');
+        break;
+      default:
+        formTitle.setCustomValidity('');
     }
   });
 
