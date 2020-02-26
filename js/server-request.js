@@ -5,48 +5,35 @@
   var TIMEOUT = 10000;
   var NUMBER_ATTEMPTS = 4;
 
-  var getDataFromServer = function (url, onSuccess, onError) {
-
-    var xhr = new XMLHttpRequest();
-    var tryAgainCounter = 0;
-    xhr.responseType = 'json';
-
-    var xhrConnect = function () {
-      xhr.open('GET', url);
-      xhr.send();
-      if (tryAgainCounter++ > NUMBER_ATTEMPTS) {
-        xhrConnect = null;
-      }
-    };
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === SUCCESS) {
-        onSuccess(xhr.response);
-      } else {
-        onError('Ошибка загрузки данных', xhrConnect);
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения', xhrConnect);
-    });
-
-    xhr.addEventListener('timeout', function () {
-      onError('К сожалению, запрос не успел выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.', xhrConnect);
-    });
-
-    xhr.timeout = TIMEOUT; // 10s
-
-    xhrConnect();
+  var PostMessages = {
+    CONNECTION_ERROR: 'Произошла ошибка соединения',
+    SUCCESS: 'Данные сохранены на сервере',
+    NO_SUCCESS: 'Ошибка отправки данных',
+    TIMEOUT: 'К сожалению, отправка данных формы не успела выполниться за ' + TIMEOUT + 'мс.Обязательно попробуйте еще раз.'
   };
 
-  var pushDataToServer = function (url, data, onSuccess, onError) {
+  var GetMessages = {
+    CONNECTION_ERROR: 'Произошла ошибка соединения',
+    SUCCESS: 'Данные получены с сервера',
+    NO_SUCCESS: 'Ошибка загрузки данных',
+    TIMEOUT: 'К сожалению, загрузка данных продолжалась дольше установленного лимита времени ' + TIMEOUT + 'мс. Проверьте скорость соединения и обязательно попробуйте еще раз.'
+  };
+
+  var exchangeWithServer = function (url, onSuccess, onError, type, data) {
 
     var xhr = new XMLHttpRequest();
     var tryAgainCounter = 0;
+    var messages;
+
+    if (type === 'POST') {
+      messages = PostMessages;
+    } else {
+      messages = GetMessages;
+      xhr.responseType = 'json';
+    }
 
     var xhrConnect = function () {
-      xhr.open('POST', url);
+      xhr.open(type, url);
       xhr.send(data);
       if (tryAgainCounter++ > NUMBER_ATTEMPTS) {
         xhrConnect = null;
@@ -55,26 +42,38 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === SUCCESS) {
-        onSuccess('Данные сохранены на сервере');
-        if (onSuccessPostExternal) {
-          onSuccessPostExternal();
+        if (type === 'POST') {
+          onSuccess('Данные сохранены на сервере');
+          if (onSuccessPostExternal) {
+            onSuccessPostExternal();
+          }
+        } else {
+          onSuccess(xhr.response);
         }
       } else {
-        onError('Ошибка отправки данных', xhrConnect);
+        onError(messages.NO_SUCCESS, xhrConnect);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения', xhrConnect);
+      onError(messages.CONNECTION_ERROR, xhrConnect);
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('К сожалению, отправка данных формы не успела выполниться за ' + xhr.timeout + 'мс. Обязательно попробуйте еще раз.', xhrConnect);
+      onError(messages.TIMEOUT, xhrConnect);
     });
 
     xhr.timeout = TIMEOUT;
 
     xhrConnect();
+  };
+
+  var getDataFromServer = function (url, onSuccess, onError) {
+    exchangeWithServer(url, onSuccess, onError, 'GET');
+  };
+
+  var pushDataToServer = function (url, data, onSuccess, onError) {
+    exchangeWithServer(url, onSuccess, onError, 'POST', data);
   };
 
   var onSuccessPostExternal;
