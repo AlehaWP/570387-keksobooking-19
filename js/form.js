@@ -59,6 +59,8 @@
     }
   });
 
+  formTitle.addEventListener('input', formTitle.checkValidity);
+
   var timeIn = form.querySelector('#timein');
   var timeOut = form.querySelector('#timeout');
 
