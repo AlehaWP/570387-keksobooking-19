@@ -2,7 +2,7 @@
 
 (function () {
 
-  var DATA_LOADING_RESOURСE = 'https://js.dump.academy/keksobooking/data';
+  var DATA_LOADING_RESOURCE = 'https://js.dump.academy/keksobooking/data';
   var LEFT_BUTTON_MOUSE_UP_CODE = 0;
   var MARGIN_TOP = 65;
   var MAX_HEIGHT_AREA = 500;
@@ -82,7 +82,7 @@
 
   var setEnabled = function () {
     map.classList.remove('map--faded');
-    window.serverRequest.load(DATA_LOADING_RESOURСE, getPinsFromServer, window.dialog.onError);
+    window.serverRequest.load(DATA_LOADING_RESOURCE, getPinsFromServer, window.dialog.onError);
   };
 
   var addEventsWithCallback = function (onMainPinClickCallback, onMainPinMouseUpCallback) {

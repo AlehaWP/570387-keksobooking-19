@@ -2,7 +2,6 @@
 
 (function () {
 
-  var ESC_KEY = 'Escape';
   var templateError = document.querySelector('#error').content;
   var templateSucces = document.querySelector('#success').content;
   var main = document.body.querySelector('main');
@@ -28,7 +27,7 @@
     };
 
     var onEscKeyDown = function (evt) {
-      if (evt.key === ESC_KEY) {
+      if (evt.key === window.general.ESC_KEY) {
         closeWindow();
       }
     };

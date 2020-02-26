@@ -8,7 +8,7 @@
     high: [50000, 1000000]
   };
 
-  var pinsAddFilter = function (formData, pinsFromServer) {
+  window.filterPins = function (formData, pinsFromServer) {
     var typeFilter = formData.get('housing-type') === 'any' ? null : formData.get('housing-type');
     var priceFilter = formData.get('housing-price') === 'any' ? null : formData.get('housing-price');
     var roomsFilter = formData.get('housing-rooms') === 'any' ? null : +formData.get('housing-rooms');
@@ -52,6 +52,4 @@
 
     return result;
   };
-
-  window.filterPins = pinsAddFilter;
 })();
